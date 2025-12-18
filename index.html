@@ -12,8 +12,9 @@
             --accent-pink: #FF2D78;
         }
 
+        /* 기본 설정 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: var(--bg-black); color: white; font-family: 'Noto Sans KR', sans-serif; line-height: 1.6; }
+        body { background-color: var(--bg-black); color: white; font-family: 'Noto Sans KR', sans-serif; line-height: 1.6; overflow-x: hidden; }
 
         .neon-text {
             color: var(--neon-yellow);
@@ -27,10 +28,11 @@
             background: rgba(0,0,0,0.8); z-index: 1000;
         }
 
-        /* 1. 메인 히어로 */
+        /* 1. 메인 히어로 (Gemini_Generated_Image_...jpg 배경) */
         .hero {
             height: 100vh; display: flex; flex-direction: column; justify-content: center;
             padding: 0 10%;
+            /* 배경 이미지 파일명을 GitHub에 올라간 이름과 똑같이 맞춰주세요 */
             background: linear-gradient(to right, rgba(0,0,0,0.8) 20%, rgba(0,0,0,0.1)), url('1.jpg');
             background-size: cover; background-position: center;
         }
@@ -41,22 +43,51 @@
         h2 { font-size: 2.5rem; margin-top: 10px; margin-bottom: 30px; }
 
         /* 2. 점주 소개 */
-        .manager-text { max-width: 700px; font-size: 1.1rem; margin-bottom: 40px; }
+        .manager-text { max-width: 700px; font-size: 1.1rem; margin-bottom: 60px; }
 
-        /* 3. 장비 목록 (이미지 3번 참고) */
+        /* 3. 장비 목록 (3개씩 2줄 배치) */
         .equipment-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(3, 1fr); /* 3개씩 가로 배치 */
             gap: 15px;
+            margin-top: 20px;
         }
-        .eq-item {
-            background: #111; padding: 20px; border-left: 4px solid var(--neon-yellow);
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .eq-name { font-weight: bold; }
-        .rent-tag { font-size: 0.7rem; color: #555; }
 
-        /* 4. 신작 코너 & 5. 장르별 영상 (그리드 레이아웃) */
+        .eq-item {
+            background: #0d0d0d;
+            padding: 20px;
+            border: 1px solid #222;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            opacity: 0.4; /* 평소 채도 낮음 */
+            filter: grayscale(100%); /* 평소 흑백 */
+        }
+
+        /* 마우스 호버 시 채도 복구 */
+        .eq-item:hover {
+            opacity: 1;
+            filter: grayscale(0%);
+            background: #151515;
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* 각 툴별 고유 색상 포인트 */
+        .eq-item.pr { border-left: 4px solid #312963; } /* Premiere */
+        .eq-item.ae { border-left: 4px solid #312963; } /* After Effects */
+        .eq-item.ps { border-left: 4px solid #31a8ff; } /* Photoshop */
+        .eq-item.ai { border-left: 4px solid #ff9a00; } /* Illustrator */
+        .eq-item.bl { border-left: 4px solid #e87d0d; } /* Blender */
+        .eq-item.id { border-left: 4px solid #ff3366; } /* InDesign */
+
+        .eq-name { font-weight: bold; color: #fff; }
+        .rent-tag { font-size: 0.6rem; color: #555; font-weight: bold; }
+
+        /* 4. 비디오 그리드 (신작 & 장르별) */
         .video-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -66,20 +97,16 @@
             position: relative; border: 1px solid #222; overflow: hidden;
             background: #0a0a0a; border-radius: 5px;
         }
-        .video-card img { width: 100%; display: block; filter: brightness(0.7); transition: 0.3s; }
-        .video-card:hover img { filter: brightness(1); transform: scale(1.05); }
+        .video-card img { width: 100%; display: block; filter: brightness(0.6); transition: 0.3s; }
+        .video-card:hover img { filter: brightness(1); }
         .video-tag {
             position: absolute; top: 10px; left: 10px;
             background: var(--neon-yellow); color: black;
             padding: 2px 8px; font-size: 0.7rem; font-weight: bold; z-index: 2;
         }
         .video-info { padding: 15px; font-size: 0.9rem; }
-        .play-overlay {
-            position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%);
-            font-size: 2rem; color: var(--accent-pink); opacity: 0.6;
-        }
 
-        /* 6. 오리지널 캐릭터 */
+        /* 6. 오리지널 캐릭터 카드 (뒤집기) */
         .char-grid { display: flex; gap: 30px; flex-wrap: wrap; }
         .flip-card { width: 320px; height: 480px; perspective: 1000px; cursor: pointer; }
         .flip-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
@@ -89,7 +116,7 @@
         .flip-back { background: #111; transform: rotateY(180deg); padding: 30px; display: flex; flex-direction: column; justify-content: center; }
 
         /* 7. 대여 안내 (영수증) */
-        .receipt-container { display: flex; justify-content: center; padding: 100px 0; background: #050505; }
+        .receipt-container { display: flex; justify-content: center; padding: 100px 0; }
         .receipt { 
             background: #fdfdf5; color: black; width: 380px; padding: 40px; 
             font-family: 'Courier New', monospace; position: relative; 
@@ -97,7 +124,7 @@
         }
         .receipt::after {
             content: "APPROVED"; position: absolute; border: 3px solid #e63946; color: #e63946;
-            padding: 5px 15px; font-weight: bold; bottom: 40px; right: 25px; transform: rotate(-15deg); font-size: 1.2rem;
+            padding: 5px 15px; font-weight: bold; bottom: 40px; right: 25px; transform: rotate(-15deg);
         }
         .dash { border-bottom: 2px dashed #ccc; margin: 20px 0; }
     </style>
@@ -126,51 +153,47 @@
 
         <span class="label">EQUIPMENT RENTAL</span>
         <h2 class="neon-text" style="font-size: 1.8rem;">장비 목록</h2>
+        <p style="font-size: 0.8rem; color: #666; margin-bottom: 20px;">비디오를 만들기 위해 항상 대여 가능한 장비 목록</p>
+        
         <div class="equipment-grid">
-            <div class="eq-item"><span class="eq-name">Premiere Pro</span><span class="rent-tag">RENT</span></div>
-            <div class="eq-item"><span class="eq-name">After Effects</span><span class="rent-tag">RENT</span></div>
-            <div class="eq-item"><span class="eq-name">Photoshop</span><span class="rent-tag">RENT</span></div>
-            <div class="eq-item"><span class="eq-name">Illustrator</span><span class="rent-tag">RENT</span></div>
-            <div class="eq-item"><span class="eq-name">Blender</span><span class="rent-tag">RENT</span></div>
-            <div class="eq-item"><span class="eq-name">InDesign</span><span class="rent-tag">RENT</span></div>
+            <div class="eq-item pr"><span class="eq-name">Premiere Pro</span><span class="rent-tag">RENT</span></div>
+            <div class="eq-item ae"><span class="eq-name">After Effects</span><span class="rent-tag">RENT</span></div>
+            <div class="eq-item ps"><span class="eq-name">Photoshop</span><span class="rent-tag">RENT</span></div>
+            <div class="eq-item ai"><span class="eq-name">Illustrator</span><span class="rent-tag">RENT</span></div>
+            <div class="eq-item bl"><span class="eq-name">Blender</span><span class="rent-tag">RENT</span></div>
+            <div class="eq-item id"><span class="eq-name">InDesign</span><span class="rent-tag">RENT</span></div>
         </div>
     </section>
 
-    <section id="new-releases">
+    <section id="new">
         <span class="label">NEW RELEASES</span>
         <h2 class="neon-text">신작 코너</h2>
         <div class="video-grid">
             <div class="video-card">
                 <div class="video-tag">AD</div>
-                <img src="4.jpg" alt="Video 1">
-                <div class="play-overlay">▶</div>
+                <img src="4.jpg" alt="AD">
                 <div class="video-info">Product Video</div>
             </div>
             <div class="video-card">
                 <div class="video-tag">ANIMATION</div>
-                <img src="5.jpg" alt="Video 2">
-                <div class="play-overlay">▶</div>
+                <img src="5.jpg" alt="AI">
                 <div class="video-info">AI Animation</div>
             </div>
-            </div>
+        </div>
     </section>
 
     <section id="genres">
         <span class="label">GENRES</span>
         <h2 class="neon-text">장르별 영상</h2>
-        <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-            <button style="background: var(--neon-yellow); color: black; padding: 5px 15px; border: none; font-weight: bold;">ALL</button>
-            <button style="background: none; color: white; border: 1px solid #333; padding: 5px 15px;">VIDEO</button>
-        </div>
         <div class="video-grid">
             <div class="video-card">
                 <div class="video-tag">WEB DRAMA</div>
-                <img src="6.jpg" alt="Web Drama">
-                <div class="video-info">Web Drama Episode 1</div>
+                <img src="6.jpg" alt="Drama">
+                <div class="video-info">Web Drama Ep.1</div>
             </div>
             <div class="video-card">
                 <div class="video-tag">MEDIA ART</div>
-                <img src="2.jpg" alt="Media Art">
+                <img src="2.jpg" alt="Art">
                 <div class="video-info">Media Art Portfolio</div>
             </div>
         </div>
@@ -182,7 +205,7 @@
         <div class="char-grid">
             <div class="flip-card" onclick="this.classList.toggle('is-flipped')">
                 <div class="flip-inner">
-                    <div class="flip-front"><img src="7.jpg" alt="IAN"></div>
+                    <div class="flip-front"><img src="7.jpg" alt="Character 1"></div>
                     <div class="flip-back">
                         <h2 class="neon-text" style="font-size: 2rem;">IAN</h2>
                         <div class="dash"></div>
@@ -193,7 +216,7 @@
             </div>
             <div class="flip-card" onclick="this.classList.toggle('is-flipped')">
                 <div class="flip-inner">
-                    <div class="flip-front"><img src="8.jpg" alt="ECHO"></div>
+                    <div class="flip-front"><img src="8.jpg" alt="Character 2"></div>
                     <div class="flip-back">
                         <h2 class="neon-text" style="font-size: 2rem;">ECHO</h2>
                         <div class="dash"></div>
