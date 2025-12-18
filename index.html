@@ -16,7 +16,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none !important; }
         body { background-color: var(--bg-black); color: white; font-family: 'Noto Sans KR', sans-serif; line-height: 1.6; overflow-x: hidden; }
 
-        /* --- 1. 배경 전용 Grain 노이즈 효과 --- */
+        /* 배경 전용 Grain 노이즈 효과 */
         .hero {
             position: relative;
             height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 0 10%;
@@ -25,34 +25,30 @@
             overflow: hidden;
         }
 
-        /* 배경 이미지 바로 위에만 노이즈 적용 */
         .hero::before {
             content: "";
             position: absolute;
             top: -100%; left: -100%; width: 300%; height: 300%;
             background: url('https://upload.wikimedia.org/wikipedia/commons/7/76/1k_Resolution_White_Noise.png');
-            opacity: 0.15; /* Grain 강도 */
+            opacity: 0.12;
             animation: grain-jump 8s steps(10) infinite;
             pointer-events: none;
-            z-index: 1; /* 글씨보다 뒤, 배경보다는 앞 */
+            z-index: 1;
         }
 
-        /* 글씨가 노이즈 위로 오도록 설정 */
-        .hero-content {
-            position: relative;
-            z-index: 10;
+        .hero-content { position: relative; z-index: 10; }
+        
+        /* 메인 타이틀 크기 복구 (clamp 사용으로 반응형 조절) */
+        .hero h1 { 
+            font-size: clamp(2.5rem, 6vw, 4.5rem); 
+            line-height: 1.2; 
+            margin-bottom: 20px; 
+            color: var(--neon-yellow);
+            text-shadow: 0 0 15px rgba(255, 234, 0, 0.8);
+            font-weight: 900;
         }
 
-        @keyframes grain-jump {
-            0%, 100% { transform: translate(0, 0); }
-            10% { transform: translate(-5%, -10%); }
-            30% { transform: translate(3%, -15%); }
-            50% { transform: translate(12%, 9%); }
-            70% { transform: translate(-9%, 4%); }
-            90% { transform: translate(2%, 11%); }
-        }
-
-        /* --- 2. 작은 커서 및 잔상 효과 --- */
+        /* 작은 커서 및 잔상 */
         .cursor-dot {
             position: fixed; width: 6px; height: 6px;
             background: var(--neon-yellow); border-radius: 50%;
@@ -63,7 +59,7 @@
             position: fixed; width: 4px; height: 4px;
             background: rgba(255, 234, 0, 0.3); border-radius: 50%;
             pointer-events: none; transform: translate(-50%, -50%);
-            z-index: 9998; transition: transform 0.1s ease-out;
+            z-index: 9998; transition: transform 0.12s ease-out;
         }
 
         /* 공통 스타일 */
@@ -76,7 +72,7 @@
         .section-desc { font-size: 0.8rem; color: #888; margin-bottom: 35px; }
         .manager-text { max-width: 700px; font-size: 1.1rem; margin-bottom: 60px; white-space: pre-line; line-height: 2.2; }
 
-        /* BGM 플레이어 UI */
+        /* BGM 플레이어 */
         #bgm-container {
             position: fixed; bottom: 30px; right: 30px; z-index: 1001;
             background: #111; border: 2px solid var(--neon-yellow);
@@ -87,20 +83,7 @@
         .playing .tape-icon { display: inline-block; animation: spin 2s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        .equipment-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px; }
-        .eq-item { background: #0d0d0d; padding: 20px; border: 1px solid #222; display: flex; justify-content: space-between; align-items: center; transition: all 0.4s ease; opacity: 0.4; filter: grayscale(100%); }
-        .eq-item:hover { opacity: 1; filter: grayscale(0%); transform: translateY(-5px); border-color: rgba(255, 255, 255, 0.2); }
-        .eq-item.pr, .eq-item.ae { border-left: 4px solid #312963; }
-        .eq-item.ps { border-left: 4px solid #31a8ff; }
-        .eq-item.ai, .eq-item.bl { border-left: 4px solid #ff9a00; }
-        .eq-item.id { border-left: 4px solid #ff3366; }
-        .eq-name { font-weight: bold; }
-        .rent-tag { font-size: 0.6rem; color: #555; }
-
-        .filter-group { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 25px; }
-        .filter-btn { background: none; border: 1px solid #333; color: white; padding: 8px 18px; font-size: 0.8rem; transition: 0.3s; font-weight: 700; }
-        .filter-btn.active { background: var(--neon-yellow); color: black; border-color: var(--neon-yellow); }
-
+        /* 비디오 그리드 */
         .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
         .video-card { background: #0a0a0a; border: 1px solid #222; border-radius: 8px; overflow: hidden; position: relative; transition: 0.4s; }
         .video-card.hide { display: none; }
@@ -109,6 +92,7 @@
         .video-tag { position: absolute; top: 10px; left: 10px; background: var(--neon-yellow); color: black; padding: 2px 8px; font-size: 0.7rem; font-weight: bold; z-index: 5; }
         .video-info { padding: 15px; font-size: 0.9rem; font-weight: bold; }
 
+        /* 캐릭터 카드 스타일 정밀 수정 */
         .centered-section { text-align: center; }
         .char-grid { display: flex; gap: 30px; flex-wrap: wrap; justify-content: center; }
         .flip-card { width: 320px; height: 480px; perspective: 1000px; text-align: left; }
@@ -116,12 +100,23 @@
         .flip-card.is-flipped .flip-inner { transform: rotateY(180deg); }
         .flip-front, .flip-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 15px; border: 1px solid #333; }
         .flip-front img { width: 100%; height: 100%; object-fit: cover; border-radius: 15px; }
-        .flip-back { background: #111; transform: rotateY(180deg); padding: 25px; display: flex; flex-direction: column; justify-content: center; }
+        .flip-back { background: #111; transform: rotateY(180deg); padding: 25px; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+        
+        .char-info-list { font-size: 0.85rem; line-height: 1.4; margin: 15px 0; color: #eee; }
+        .char-info-list b { color: var(--neon-yellow); display: inline-block; width: 45px; }
+        .char-tags { font-size: 0.8rem; color: var(--accent-pink); margin-top: 10px; font-weight: bold; }
 
         .receipt-container { display: flex; flex-direction: column; align-items: center; padding: 100px 10%; background: #050505; text-align: center; }
         .receipt { background: #fdfdf5; color: black; width: 380px; padding: 40px; font-family: 'Courier New', monospace; position: relative; box-shadow: 10px 10px 0px rgba(255, 234, 0, 0.2); text-align: left; }
         .receipt::after { content: "APPROVED"; position: absolute; border: 3px solid #e63946; color: #e63946; padding: 5px 15px; font-weight: bold; bottom: 40px; right: 25px; transform: rotate(-15deg); }
         .dash { border-bottom: 2px dashed #ccc; margin: 20px 0; }
+
+        @keyframes grain-jump {
+            0%, 100% { transform: translate(0, 0); }
+            10% { transform: translate(-5%, -10%); }
+            50% { transform: translate(12%, 9%); }
+            90% { transform: translate(2%, 11%); }
+        }
     </style>
 </head>
 <body>
@@ -133,9 +128,9 @@
         <span class="tape-icon">📼</span>
         <span id="bgm-text" style="font-size: 0.8rem; font-weight: bold;">BGM OFF</span>
         <div id="controls" style="display: flex; gap: 5px; margin-left: 10px;">
-            <button onclick="playPrev()" style="background:none; border:none; color:white; font-size: 0.7rem; cursor: none;">◀</button>
-            <button id="play-btn" onclick="toggleBGM()" style="background:none; border:none; color:white; font-size: 0.7rem; cursor: none;">PLAY</button>
-            <button onclick="playNext()" style="background:none; border:none; color:white; font-size: 0.7rem; cursor: none;">▶</button>
+            <button onclick="playPrev()" style="background:none; border:none; color:white; font-size: 0.7rem;">◀</button>
+            <button id="play-btn" onclick="toggleBGM()" style="background:none; border:none; color:white; font-size: 0.7rem;">PLAY</button>
+            <button onclick="playNext()" style="background:none; border:none; color:white; font-size: 0.7rem;">▶</button>
         </div>
         <audio id="main-audio"></audio>
     </div>
@@ -168,13 +163,13 @@
         <span class="label">EQUIPMENT RENTAL</span>
         <h2 class="neon-text section-title">장비 목록</h2>
         <div class="section-desc">비디오를 만들기 위해 항상 대여 가능한 장비 목록</div>
-        <div class="equipment-grid">
-            <div class="eq-item pr"><span class="eq-name">Premiere Pro</span><span class="rent-tag">RENT</span></div>
-            <div class="eq-item ae"><span class="eq-name">After Effects</span><span class="rent-tag">RENT</span></div>
-            <div class="eq-item ps"><span class="eq-name">Photoshop</span><span class="rent-tag">RENT</span></div>
-            <div class="eq-item ai"><span class="eq-name">Illustrator</span><span class="rent-tag">RENT</span></div>
-            <div class="eq-item bl"><span class="eq-name">Blender</span><span class="rent-tag">RENT</span></div>
-            <div class="eq-item id"><span class="eq-name">InDesign</span><span class="rent-tag">RENT</span></div>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px;">
+            <div style="background: #0d0d0d; padding: 20px; border: 1px solid #222; border-left: 4px solid #312963;">Premiere Pro</div>
+            <div style="background: #0d0d0d; padding: 20px; border: 1px solid #222; border-left: 4px solid #312963;">After Effects</div>
+            <div style="background: #0d0d0d; padding: 20px; border: 1px solid #222; border-left: 4px solid #31a8ff;">Photoshop</div>
+            <div style="background: #0d0d0d; padding: 20px; border: 1px solid #222; border-left: 4px solid #ff9a00;">Illustrator</div>
+            <div style="background: #0d0d0d; padding: 20px; border: 1px solid #222; border-left: 4px solid #ff9a00;">Blender</div>
+            <div style="background: #0d0d0d; padding: 20px; border: 1px solid #222; border-left: 4px solid #ff3366;">InDesign</div>
         </div>
     </section>
 
@@ -228,7 +223,13 @@
                     <div class="flip-front"><img src="7.jpg" alt="IAN"></div>
                     <div class="flip-back">
                         <h2 class="neon-text" style="font-size: 2rem;">IAN</h2>
-                        <p style="font-size: 0.9rem;">낮에는 평범한 고등학생, 밤에는 인디 밴드 보컬.</p>
+                        <p style="font-size: 0.85rem;">낮에는 평범한 고등학생,<br>밤에는 인디 밴드 보컬.</p>
+                        <div class="char-info-list">
+                            <p><b>나이</b> 18세</p>
+                            <p><b>역할</b> 학생 / 인디 밴드 보컬</p>
+                            <p><b>테마</b> 이중 생활</p>
+                        </div>
+                        <div class="char-tags">#이중생활 #갭모에<br>#카리스마보컬 #안경스위치</div>
                     </div>
                 </div>
             </div>
@@ -237,11 +238,18 @@
                     <div class="flip-front"><img src="8.jpg" alt="ECHO"></div>
                     <div class="flip-back">
                         <h2 class="neon-text" style="font-size: 2rem;">ECHO</h2>
-                        <p style="font-size: 0.9rem;">네오 시티의 언더그라운드 작곡가.</p>
+                        <p style="font-size: 0.85rem;">네오 시티의 그림자 속에서<br>활동하는 언더그라운드 작곡가.</p>
+                        <div class="char-info-list">
+                            <p><b>나이</b> 20대 초반</p>
+                            <p><b>역할</b> 작곡가 / 해커</p>
+                            <p><b>테마</b> 자유와 집중</p>
+                        </div>
+                        <div class="char-tags">#무심 #츤데레<br>#자유추구 #집중력</div>
                     </div>
                 </div>
             </div>
         </div>
+        <div style="font-size: 0.7rem; color: #555; margin-top: 40px;">* 모든 캐릭터는 오리지널 창작물입니다 *</div>
     </section>
 
     <div class="receipt-container">
@@ -258,7 +266,6 @@
     </div>
 
     <script>
-        // 커서 로직
         const dot = document.getElementById('cursor-dot');
         const trail = document.getElementById('cursor-trail');
         document.addEventListener('mousemove', e => {
@@ -267,7 +274,7 @@
             setTimeout(() => {
                 trail.style.left = e.clientX + 'px';
                 trail.style.top = e.clientY + 'px';
-            }, 60);
+            }, 100);
         });
 
         const clickSound = document.getElementById('click-sound');
