@@ -40,7 +40,14 @@
         .section-title { font-size: 2.5rem; margin-top: 10px; margin-bottom: 5px; }
         .section-desc { font-size: 0.8rem; color: #888; margin-bottom: 35px; }
 
-        .manager-text { max-width: 700px; font-size: 1.1rem; margin-bottom: 60px; white-space: pre-line; }
+        /* 점주 소개 문구 간격 수정 부분 */
+        .manager-text { 
+            max-width: 700px; 
+            font-size: 1.1rem; 
+            margin-bottom: 60px; 
+            white-space: pre-line; 
+            line-height: 2.2; /* 위아래 간격을 더 넓혔습니다 */
+        }
 
         .equipment-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px; }
         .eq-item {
@@ -242,7 +249,6 @@
         <span class="label">ORIGINAL CHARACTERS</span>
         <h2 class="neon-text section-title">오리지널 캐릭터</h2>
         <div class="section-desc">카드를 클릭하면 캐릭터 프로필을 볼 수 있습니다.</div>
-        
         <div class="char-grid">
             <div class="flip-card" onclick="this.classList.toggle('is-flipped')">
                 <div class="flip-inner">
@@ -281,7 +287,6 @@
                 </div>
             </div>
         </div>
-        
         <div style="font-size: 0.7rem; color: #555; margin-top: 40px; letter-spacing: 1px;">
             * 모든 캐릭터는 오리지널 창작물입니다 *
         </div>
@@ -293,7 +298,6 @@
             <h2 class="neon-text section-title">대여 안내</h2>
             <div class="section-desc">방문해 주셔서 감사합니다. 연락은 아래 정보를 이용해 주세요.</div>
         </div>
-        
         <div class="receipt">
             <p style="text-align: center; font-weight: bold;">VIDEO CLUB RENTAL INFO</p>
             <div class="dash"></div>
@@ -324,6 +328,5 @@
             });
         });
     </script>
-
 </body>
 </html>
