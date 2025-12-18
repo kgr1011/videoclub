@@ -27,7 +27,6 @@
             background: rgba(0,0,0,0.8); z-index: 1000;
         }
 
-        /* 메인 배경 설정 */
         .hero {
             height: 100vh;
             display: flex;
@@ -42,9 +41,10 @@
 
         section { padding: 100px 10%; border-bottom: 1px solid #111; }
         .label { color: var(--accent-pink); font-size: 0.8rem; font-weight: bold; letter-spacing: 2px; }
-        h2 { font-size: 2.5rem; margin-top: 10px; margin-bottom: 30px; }
+        
+        /* 지정하신 5가지 섹션 제목의 크기를 2.5rem으로 통일 */
+        .section-title { font-size: 2.5rem; margin-top: 10px; margin-bottom: 30px; }
 
-        /* 점주 소개 문구 스타일 */
         .manager-text { max-width: 700px; font-size: 1.1rem; margin-bottom: 60px; white-space: pre-line; }
         
         .equipment-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px; }
@@ -96,7 +96,7 @@
 
     <section id="about">
         <span class="label">MANAGER</span>
-        <h2 class="neon-text">점주 소개</h2>
+        <h2 class="neon-text section-title">점주 소개</h2>
         <div class="manager-text">
             VIDEO CLUB의 점주 김근령입니다.
             영상을 보는 걸 좋아해
@@ -105,9 +105,11 @@
             조금 더 넓은 범위의 작업도 하고 있습니다.
             이곳은 그 기록을 모아둔 공간입니다.
         </div>
+    </section>
 
+    <section id="equipment">
         <span class="label">EQUIPMENT RENTAL</span>
-        <h2 class="neon-text" style="font-size: 1.8rem;">장비 목록</h2>
+        <h2 class="neon-text section-title">장비 목록</h2>
         <div class="equipment-grid">
             <div class="eq-item pr"><span class="eq-name">Premiere Pro</span><span class="rent-tag">RENT</span></div>
             <div class="eq-item ae"><span class="eq-name">After Effects</span><span class="rent-tag">RENT</span></div>
@@ -120,7 +122,7 @@
 
     <section id="new">
         <span class="label">NEW RELEASES</span>
-        <h2 class="neon-text">신작 코너</h2>
+        <h2 class="neon-text section-title">신작 코너</h2>
         <div class="video-grid">
             <div class="video-card">
                 <div class="video-tag">AD</div>
@@ -147,7 +149,7 @@
 
     <section id="genres">
         <span class="label">GENRES</span>
-        <h2 class="neon-text">장르별 영상</h2>
+        <h2 class="neon-text section-title">장르별 영상</h2>
         <div class="video-grid">
             <div class="video-card">
                 <div class="video-tag">WEB DRAMA</div>
@@ -159,7 +161,7 @@
 
     <section id="characters">
         <span class="label">ORIGINAL CHARACTERS</span>
-        <h2 class="neon-text">오리지널 캐릭터</h2>
+        <h2 class="neon-text section-title">오리지널 캐릭터</h2>
         <div class="char-grid">
             <div class="flip-card" onclick="this.classList.toggle('is-flipped')">
                 <div class="flip-inner">
