@@ -12,57 +12,50 @@
             --accent-pink: #FF2D78;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+        /* 커서 숨김 및 기본 설정 */
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none !important; }
         body { background-color: var(--bg-black); color: white; font-family: 'Noto Sans KR', sans-serif; line-height: 1.6; overflow-x: hidden; }
 
-        /* --- 1. 강화된 VCR 노이즈 효과 --- */
+        /* 1. 강화된 VCR 노이즈 효과 */
         .vcr-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: transparent; pointer-events: none; z-index: 9998;
         }
-        /* 지지직거리는 미세한 노이즈 레이어 */
         .vcr-overlay::before {
             content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: url('https://upload.wikimedia.org/wikipedia/commons/7/76/1k_Resolution_White_Noise.png');
-            opacity: 0.08; /* 노이즈 강도 상향 */
+            opacity: 0.12; /* 노이즈 강도 대폭 상향 */
             animation: noise-anim 0.2s infinite;
         }
-        /* 화면을 가로지르는 VCR 스캔라인 효과 추가 */
         .vcr-overlay::after {
             content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
-                        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.04), rgba(0, 255, 0, 0.02), rgba(0, 255, 0, 0.04));
             background-size: 100% 3px, 3px 100%;
-            pointer-events: none;
         }
 
         @keyframes noise-anim {
             0% { transform: translate(0,0); }
             10% { transform: translate(-1%,-1%); }
             20% { transform: translate(-2%,1%); }
-            30% { transform: translate(1%,-2%); }
-            50% { transform: translate(-1%,2%); }
-            70% { transform: translate(2%,0); }
-            90% { transform: translate(-1%,1%); }
             100% { transform: translate(1%,0); }
         }
 
-        /* --- 2. 사이즈 축소 및 잔상이 남는 네온 커서 --- */
+        /* 2. 작은 커서 및 잔상 효과 */
         .cursor-dot {
-            position: fixed; width: 8px; height: 8px; /* 사이즈 축소 */
+            position: fixed; width: 8px; height: 8px;
             background: var(--neon-yellow); border-radius: 50%;
             pointer-events: none; transform: translate(-50%, -50%);
-            z-index: 9999;
-            box-shadow: 0 0 10px var(--neon-yellow), 0 0 20px var(--neon-yellow);
+            z-index: 9999; box-shadow: 0 0 10px var(--neon-yellow);
         }
-        /* 잔상 효과를 위한 트레일 효과 */
         .cursor-trail {
             position: fixed; width: 6px; height: 6px;
             background: rgba(255, 234, 0, 0.4); border-radius: 50%;
             pointer-events: none; transform: translate(-50%, -50%);
-            z-index: 9998; transition: transform 0.15s ease-out, opacity 0.15s ease-out;
+            z-index: 9998; transition: transform 0.12s ease-out;
         }
 
+        /* 레이아웃 & 텍스트 스타일 */
         .neon-text { color: var(--neon-yellow); text-shadow: 0 0 10px rgba(255, 234, 0, 0.7); font-weight: 900; }
         header { position: fixed; top: 0; width: 100%; padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.8); z-index: 1000; }
         
@@ -79,7 +72,7 @@
         .section-desc { font-size: 0.8rem; color: #888; margin-bottom: 35px; }
         .manager-text { max-width: 700px; font-size: 1.1rem; margin-bottom: 60px; white-space: pre-line; line-height: 2.2; }
 
-        /* --- 3. BGM 플레이어 UI --- */
+        /* 3. 카세트 BGM 플레이어 UI */
         #bgm-container {
             position: fixed; bottom: 30px; right: 30px; z-index: 1001;
             background: #111; border: 2px solid var(--neon-yellow);
@@ -90,14 +83,16 @@
         .playing .tape-icon { display: inline-block; animation: spin 2s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* 기존 영상/캐릭터 스타일 유지 */
+        /* 비디오 그리드 */
         .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
         .video-card { background: #0a0a0a; border: 1px solid #222; border-radius: 8px; overflow: hidden; position: relative; transition: 0.4s; }
         .video-card.hide { display: none; }
         .iframe-container { position: relative; width: 100%; padding-bottom: 56.25%; height: 0; }
         .iframe-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        .video-tag { position: absolute; top: 10px; left: 10px; background: var(--neon-yellow); color: black; padding: 2px 8px; font-size: 0.7rem; font-weight: bold; z-index: 5; }
         .video-info { padding: 15px; font-size: 0.9rem; font-weight: bold; }
 
+        /* 캐릭터 카드 */
         .centered-section { text-align: center; }
         .char-grid { display: flex; gap: 30px; flex-wrap: wrap; justify-content: center; }
         .flip-card { width: 320px; height: 480px; perspective: 1000px; text-align: left; }
@@ -105,7 +100,7 @@
         .flip-card.is-flipped .flip-inner { transform: rotateY(180deg); }
         .flip-front, .flip-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 15px; border: 1px solid #333; }
         .flip-front img { width: 100%; height: 100%; object-fit: cover; border-radius: 15px; }
-        .flip-back { background: #111; transform: rotateY(180deg); padding: 25px; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+        .flip-back { background: #111; transform: rotateY(180deg); padding: 25px; display: flex; flex-direction: column; justify-content: center; }
 
         .receipt-container { display: flex; flex-direction: column; align-items: center; padding: 100px 10%; background: #050505; text-align: center; }
         .receipt { background: #fdfdf5; color: black; width: 380px; padding: 40px; font-family: 'Courier New', monospace; position: relative; box-shadow: 10px 10px 0px rgba(255, 234, 0, 0.2); text-align: left; }
@@ -125,4 +120,153 @@
         <div id="controls" style="display: flex; gap: 5px; margin-left: 10px;">
             <button onclick="playPrev()" style="background:none; border:none; color:white; font-size: 0.7rem;">◀</button>
             <button id="play-btn" onclick="toggleBGM()" style="background:none; border:none; color:white; font-size: 0.7rem;">PLAY</button>
-            <button onclick="play
+            <button onclick="playNext()" style="background:none; border:none; color:white; font-size: 0.7rem;">▶</button>
+        </div>
+        <audio id="main-audio"></audio>
+    </div>
+
+    <audio id="click-sound" src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3"></audio>
+
+    <header>
+        <div class="logo neon-text">GEUNRYEONG VIDEO CLUB</div>
+        <div style="font-size: 0.7rem;">● ALWAYS OPEN</div>
+    </header>
+
+    <section class="hero">
+        <h1 class="neon-text">지금 가장 보고 싶은<br>영상을 대여해 드립니다.</h1>
+        <p style="opacity: 0.7;">Curated videos & characters by GeunRyeong</p>
+    </section>
+
+    <section id="about">
+        <span class="label">MANAGER</span>
+        <h2 class="neon-text section-title">점주 소개</h2>
+        <div class="section-desc">점주에 대한 간단한 소개입니다.</div>
+        <div class="manager-text">
+            VIDEO CLUB의 점주 김근령입니다.
+            영상을 보는 걸 좋아해 직접 제작까지 하게 되었습니다.
+            나아가 영상뿐만 아니라 조금 더 넓은 범위의 작업도 하고 있습니다.
+            이곳은 그 기록을 모아둔 공간입니다.
+        </div>
+    </section>
+
+    <section id="new">
+        <span class="label">NEW RELEASES</span>
+        <h2 class="neon-text section-title">신작 코너</h2>
+        <div class="section-desc">최근 입고된 테이프들입니다. 클릭하여 감상하세요.</div>
+        <div class="video-grid">
+            <div class="video-card"><div class="iframe-container"><iframe src="https://www.youtube.com/embed/-mfwhKQv4MY" allowfullscreen></iframe></div><div class="video-info">Product Video</div></div>
+            <div class="video-card"><div class="iframe-container"><iframe src="https://www.youtube.com/embed/8XyyVhOo4j4" allowfullscreen></iframe></div><div class="video-info">AI Animation Film</div></div>
+        </div>
+    </section>
+
+    <section id="characters" class="centered-section">
+        <span class="label">ORIGINAL CHARACTERS</span>
+        <h2 class="neon-text section-title">오리지널 캐릭터</h2>
+        <div class="section-desc">카드를 클릭하면 캐릭터 프로필을 볼 수 있습니다.</div>
+        <div class="char-grid">
+            <div class="flip-card" onclick="flipChar(this)">
+                <div class="flip-inner">
+                    <div class="flip-front"><img src="7.jpg" alt="IAN"></div>
+                    <div class="flip-back">
+                        <h2 class="neon-text" style="font-size: 2rem;">IAN</h2>
+                        <p style="font-size: 0.9rem;">낮에는 평범한 고등학생, 밤에는 인디 밴드 보컬.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="flip-card" onclick="flipChar(this)">
+                <div class="flip-inner">
+                    <div class="flip-front"><img src="8.jpg" alt="ECHO"></div>
+                    <div class="flip-back">
+                        <h2 class="neon-text" style="font-size: 2rem;">ECHO</h2>
+                        <p style="font-size: 0.9rem;">네오 시티의 언더그라운드 작곡가.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="font-size: 0.7rem; color: #555; margin-top: 40px;">* 모든 캐릭터는 오리지널 창작물입니다 *</div>
+    </section>
+
+    <div class="receipt-container">
+        <div style="margin-bottom: 20px;"><span class="label">RENTAL INFO</span><h2 class="neon-text section-title">대여 안내</h2></div>
+        <div class="receipt">
+            <p style="text-align: center; font-weight: bold;">VIDEO CLUB INFO</p>
+            <div class="dash"></div>
+            <p>EMAIL: rrf0524@naver.com</p>
+            <p>INSTAGRAM: @kim__dobby_is_free</p>
+            <p>KAKAOTALK: kgr__0524</p>
+            <div class="dash"></div>
+            <p style="text-align: center; font-size: 0.8rem; margin-top: 20px;">THANK YOU</p>
+        </div>
+    </div>
+
+    <script>
+        // 커서 및 잔상 로직
+        const dot = document.getElementById('cursor-dot');
+        const trail = document.getElementById('cursor-trail');
+        document.addEventListener('mousemove', e => {
+            dot.style.left = e.clientX + 'px';
+            dot.style.top = e.clientY + 'px';
+            setTimeout(() => {
+                trail.style.left = e.clientX + 'px';
+                trail.style.top = e.clientY + 'px';
+            }, 100);
+        });
+
+        // 찰칵 효과음 함수
+        const clickSound = document.getElementById('click-sound');
+        function playClick() { clickSound.currentTime = 0; clickSound.play(); }
+
+        // 카드 뒤집기 + 효과음
+        function flipChar(el) { playClick(); el.classList.toggle('is-flipped'); }
+
+        // BGM 플레이리스트 (수정된 파일명 기준)
+        const playlist = ["bgm1.mp3", "bgm2.mp3", "bgm3.mp3", "bgm4.mp3"];
+        let currentTrack = 0;
+        const mainAudio = document.getElementById('main-audio');
+        const bgmContainer = document.getElementById('bgm-container');
+        const bgmText = document.getElementById('bgm-text');
+        const playBtn = document.getElementById('play-btn');
+
+        function loadTrack(index) {
+            mainAudio.src = playlist[index];
+            mainAudio.load();
+        }
+        loadTrack(currentTrack);
+
+        function toggleBGM() {
+            playClick();
+            if (mainAudio.paused) {
+                mainAudio.play().then(() => {
+                    bgmContainer.classList.add('playing');
+                    bgmText.innerText = "BGM ON";
+                    playBtn.innerText = "PAUSE";
+                }).catch(e => {
+                    console.error("파일 로딩 실패. 파일명을 다시 확인해주세요.");
+                    alert("음악 파일을 찾을 수 없습니다. 저장소 파일명을 bgm1, bgm2... 로 수정하셨나요?");
+                });
+            } else {
+                mainAudio.pause();
+                bgmContainer.classList.remove('playing');
+                bgmText.innerText = "BGM OFF";
+                playBtn.innerText = "PLAY";
+            }
+        }
+
+        function playNext() {
+            playClick();
+            currentTrack = (currentTrack + 1) % playlist.length;
+            loadTrack(currentTrack);
+            mainAudio.play();
+        }
+
+        function playPrev() {
+            playClick();
+            currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
+            loadTrack(currentTrack);
+            mainAudio.play();
+        }
+
+        mainAudio.onended = playNext;
+    </script>
+</body>
+</html>
