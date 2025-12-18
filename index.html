@@ -28,25 +28,20 @@
         }
 
         .hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            height: 100vh; display: flex; flex-direction: column; justify-content: center;
             padding: 0 10%;
-            background: linear-gradient(to right, rgba(0,0,0,0.85) 30%, rgba(0,0,0,0.2)), 
-                        url('1.jpg') no-repeat center center;
-            background-size: cover;
+            background: linear-gradient(to right, rgba(0,0,0,0.85) 30%, rgba(0,0,0,0.2)), url('./1.jpg');
+            background-size: cover; background-position: center;
         }
         .hero h1 { font-size: clamp(2.5rem, 6vw, 4rem); line-height: 1.1; margin-bottom: 20px; }
 
         section { padding: 100px 10%; border-bottom: 1px solid #111; }
         .label { color: var(--accent-pink); font-size: 0.8rem; font-weight: bold; letter-spacing: 2px; }
-        
-        /* 지정하신 5가지 섹션 제목의 크기를 2.5rem으로 통일 */
         .section-title { font-size: 2.5rem; margin-top: 10px; margin-bottom: 30px; }
 
         .manager-text { max-width: 700px; font-size: 1.1rem; margin-bottom: 60px; white-space: pre-line; }
-        
+
+        /* 장비 목록 */
         .equipment-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px; }
         .eq-item {
             background: #0d0d0d; padding: 20px; border: 1px solid #222;
@@ -61,13 +56,28 @@
         .eq-name { font-weight: bold; color: #fff; }
         .rent-tag { font-size: 0.6rem; color: #555; font-weight: bold; }
 
-        .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; margin-top: 20px; }
-        .video-card { background: #0a0a0a; border: 1px solid #222; border-radius: 8px; overflow: hidden; position: relative; }
+        /* 필터링 UI (이미지 6번 스타일) */
+        .filter-container { margin-bottom: 40px; }
+        .filter-sub { font-size: 0.7rem; color: #666; font-weight: 900; letter-spacing: 1px; display: block; margin-bottom: 10px; }
+        .filter-group { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 25px; }
+        .filter-btn {
+            background: none; border: 1px solid #333; color: white;
+            padding: 8px 18px; cursor: pointer; font-size: 0.8rem; transition: 0.3s;
+            font-weight: 700;
+        }
+        .filter-btn.active { background: var(--neon-yellow); color: black; border-color: var(--neon-yellow); }
+
+        /* 비디오 그리드 */
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
+        .video-card { background: #0a0a0a; border: 1px solid #222; border-radius: 8px; overflow: hidden; position: relative; transition: 0.4s; }
+        .video-card.hide { display: none; }
+        
         .iframe-container { position: relative; width: 100%; padding-bottom: 56.25%; height: 0; }
         .iframe-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
         .video-tag { position: absolute; top: 10px; left: 10px; background: var(--neon-yellow); color: black; padding: 2px 8px; font-size: 0.7rem; font-weight: bold; z-index: 5; }
         .video-info { padding: 15px; font-size: 0.9rem; font-weight: bold; }
 
+        /* 캐릭터 카드 */
         .char-grid { display: flex; gap: 30px; flex-wrap: wrap; }
         .flip-card { width: 320px; height: 480px; perspective: 1000px; cursor: pointer; }
         .flip-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
@@ -76,6 +86,7 @@
         .flip-front img { width: 100%; height: 100%; object-fit: cover; border-radius: 15px; }
         .flip-back { background: #111; transform: rotateY(180deg); padding: 30px; display: flex; flex-direction: column; justify-content: center; }
 
+        /* 영수증 */
         .receipt-container { display: flex; justify-content: center; padding: 100px 0; }
         .receipt { background: #fdfdf5; color: black; width: 380px; padding: 40px; font-family: 'Courier New', monospace; position: relative; box-shadow: 10px 10px 0px rgba(255, 234, 0, 0.2); }
         .receipt::after { content: "APPROVED"; position: absolute; border: 3px solid #e63946; color: #e63946; padding: 5px 15px; font-weight: bold; bottom: 40px; right: 25px; transform: rotate(-15deg); }
@@ -105,9 +116,7 @@
             조금 더 넓은 범위의 작업도 하고 있습니다.
             이곳은 그 기록을 모아둔 공간입니다.
         </div>
-    </section>
 
-    <section id="equipment">
         <span class="label">EQUIPMENT RENTAL</span>
         <h2 class="neon-text section-title">장비 목록</h2>
         <div class="equipment-grid">
@@ -120,43 +129,50 @@
         </div>
     </section>
 
-    <section id="new">
-        <span class="label">NEW RELEASES</span>
-        <h2 class="neon-text section-title">신작 코너</h2>
-        <div class="video-grid">
-            <div class="video-card">
-                <div class="video-tag">AD</div>
-                <div class="iframe-container"><iframe src="https://www.youtube.com/embed/-mfwhKQv4MY" allowfullscreen></iframe></div>
-                <div class="video-info">Product Video</div>
+    <section id="genres">
+        <span class="label">GENRES</span>
+        <h2 class="neon-text section-title">장르별 영상</h2>
+        
+        <div class="filter-container">
+            <span class="filter-sub">SHELVES</span>
+            <div class="filter-group">
+                <button class="filter-btn active" data-filter="all">ALL</button>
+                <button class="filter-btn" data-filter="VIDEO">VIDEO</button>
             </div>
-            <div class="video-card">
+            
+            <span class="filter-sub">VIDEO GENRES</span>
+            <div class="filter-group">
+                <button class="filter-btn" data-filter="ANIMATION">ANIMATION</button>
+                <button class="filter-btn" data-filter="SHORTS">SHORTS</button>
+                <button class="filter-btn" data-filter="WEBDRAMA">WEBDRAMA</button>
+                <button class="filter-btn" data-filter="MEDIA ART">MEDIA ART</button>
+                <button class="filter-btn" data-filter="AD">AD</button>
+                <button class="filter-btn" data-filter="PODCAST">PODCAST</button>
+            </div>
+        </div>
+
+        <div class="video-grid" id="filtered-grid">
+            <div class="video-card" data-category="ANIMATION">
                 <div class="video-tag">ANIMATION</div>
                 <div class="iframe-container"><iframe src="https://www.youtube.com/embed/8XyyVhOo4j4" allowfullscreen></iframe></div>
                 <div class="video-info">AI Animation Film</div>
             </div>
-            <div class="video-card">
+            <div class="video-card" data-category="SHORTS">
                 <div class="video-tag">SHORTS</div>
                 <div class="iframe-container"><iframe src="https://www.youtube.com/embed/hGRN-lwvUU4" allowfullscreen></iframe></div>
-                <div class="video-info">3D Animation</div>
+                <div class="video-info">Vertical Contents</div>
             </div>
-            <div class="video-card">
+            <div class="video-card" data-category="WEBDRAMA">
                 <div class="video-tag">WEBDRAMA</div>
                 <div class="iframe-container"><iframe src="https://www.youtube.com/embed/KbV-dxd6BoQ" allowfullscreen></iframe></div>
-                <div class="video-info">WEBDRAMA</div>
+                <div class="video-info">Web Series Ep.1</div>
             </div>
-        </div>
-    </section>
-
-    <section id="genres">
-        <span class="label">GENRES</span>
-        <h2 class="neon-text section-title">장르별 영상</h2>
-        <div class="video-grid">
-            <div class="video-card">
-                <div class="video-tag">WEB DRAMA</div>
+            <div class="video-card" data-category="AD">
+                <div class="video-tag">AD</div>
                 <div class="iframe-container"><iframe src="https://www.youtube.com/embed/-mfwhKQv4MY" allowfullscreen></iframe></div>
-                <div class="video-info">Web Drama Ep.1</div>
+                <div class="video-info">Product AD Film</div>
             </div>
-        </div>
+            </div>
     </section>
 
     <section id="characters">
@@ -197,6 +213,29 @@
             <p style="text-align: center; font-size: 0.8rem; margin-top: 20px;">THANK YOU FOR VISITING</p>
         </div>
     </div>
+
+    <script>
+        const buttons = document.querySelectorAll('.filter-btn');
+        const cards = document.querySelectorAll('#filtered-grid .video-card');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                buttons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                const filter = button.getAttribute('data-filter');
+
+                cards.forEach(card => {
+                    // ALL을 누르거나 장르가 일치하는 경우 표시
+                    if (filter === 'all' || card.getAttribute('data-category') === filter || (filter === 'VIDEO' && card.getAttribute('data-category'))) {
+                        card.classList.remove('hide');
+                    } else {
+                        card.classList.add('hide');
+                    }
+                });
+            });
+        });
+    </script>
 
 </body>
 </html>
