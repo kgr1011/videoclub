@@ -27,14 +27,12 @@
             background: rgba(0,0,0,0.8); z-index: 1000;
         }
 
-        /* --- 1. 메인 히어로 (배경 이미지 1.jpg) --- */
         .hero {
             height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             padding: 0 10%;
-            /* 경로를 현재 폴더(./)로 명확히 지정하고 어둡게 처리 */
             background: linear-gradient(to right, rgba(0,0,0,0.85) 30%, rgba(0,0,0,0.2)), 
                         url('./1.jpg') no-repeat center center;
             background-size: cover;
@@ -45,7 +43,6 @@
         .label { color: var(--accent-pink); font-size: 0.8rem; font-weight: bold; letter-spacing: 2px; }
         h2 { font-size: 2.5rem; margin-top: 10px; margin-bottom: 30px; }
 
-        /* 2. 점주 소개 & 3. 장비 목록 */
         .manager-text { max-width: 700px; font-size: 1.1rem; margin-bottom: 60px; }
         .equipment-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px; }
         .eq-item {
@@ -61,7 +58,6 @@
         .eq-name { font-weight: bold; color: #fff; }
         .rent-tag { font-size: 0.6rem; color: #555; font-weight: bold; }
 
-        /* 비디오 그리드 */
         .video-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -83,7 +79,6 @@
         }
         .video-info { padding: 15px; font-size: 0.9rem; font-weight: bold; }
 
-        /* 캐릭터 카드 */
         .char-grid { display: flex; gap: 30px; flex-wrap: wrap; }
         .flip-card { width: 320px; height: 480px; perspective: 1000px; cursor: pointer; }
         .flip-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
@@ -92,7 +87,6 @@
         .flip-front img { width: 100%; height: 100%; object-fit: cover; border-radius: 15px; }
         .flip-back { background: #111; transform: rotateY(180deg); padding: 30px; display: flex; flex-direction: column; justify-content: center; }
 
-        /* 영수증 푸터 */
         .receipt-container { display: flex; justify-content: center; padding: 100px 0; }
         .receipt { 
             background: #fdfdf5; color: black; width: 380px; padding: 40px; font-family: 'Courier New', monospace; position: relative; 
@@ -144,7 +138,7 @@
                 <div class="iframe-container">
                     <iframe src="https://www.youtube.com/embed/-mfwhKQv4MY" allowfullscreen></iframe>
                 </div>
-                <div class="video-info">Concept Video 01</div>
+                <div class="video-info">Product Video</div>
             </div>
             <div class="video-card">
                 <div class="video-tag">ANIMATION</div>
@@ -158,14 +152,14 @@
                 <div class="iframe-container">
                     <iframe src="https://www.youtube.com/embed/hGRN-lwvUU4" allowfullscreen></iframe>
                 </div>
-                <div class="video-info">Special Shorts</div>
+                <div class="video-info">3D Animation</div>
             </div>
             <div class="video-card">
-                <div class="video-tag">MEDIA ART</div>
+                <div class="video-tag">WEBDRAMA</div>
                 <div class="iframe-container">
                     <iframe src="https://www.youtube.com/embed/KbV-dxd6BoQ" allowfullscreen></iframe>
                 </div>
-                <div class="video-info">Artistic Motion Graphics</div>
+                <div class="video-info">WEBDRAMA</div>
             </div>
         </div>
     </section>
