@@ -12,7 +12,6 @@
             --accent-pink: #FF2D78;
         }
 
-        /* 기본 설정 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background-color: var(--bg-black); color: white; font-family: 'Noto Sans KR', sans-serif; line-height: 1.6; overflow-x: hidden; }
 
@@ -28,12 +27,11 @@
             background: rgba(0,0,0,0.8); z-index: 1000;
         }
 
-        /* 1. 메인 히어로 (Gemini_Generated_Image_...jpg 배경) */
+        /* 1. 메인 히어로 */
         .hero {
             height: 100vh; display: flex; flex-direction: column; justify-content: center;
             padding: 0 10%;
-            /* 배경 이미지 파일명을 GitHub에 올라간 이름과 똑같이 맞춰주세요 */
-            background: linear-gradient(to right, rgba(0,0,0,0.8) 20%, rgba(0,0,0,0.1)), url('1.jpg');
+            background: linear-gradient(to right, rgba(0,0,0,0.8) 20%, rgba(0,0,0,0.1)), url('Gemini_Generated_Image_xq6b6qxq6b6qxq6b.jpg');
             background-size: cover; background-position: center;
         }
         .hero h1 { font-size: clamp(2.5rem, 6vw, 4rem); line-height: 1.1; margin-bottom: 20px; }
@@ -42,71 +40,45 @@
         .label { color: var(--accent-pink); font-size: 0.8rem; font-weight: bold; letter-spacing: 2px; }
         h2 { font-size: 2.5rem; margin-top: 10px; margin-bottom: 30px; }
 
-        /* 2. 점주 소개 */
+        /* 2. 점주 소개 & 3. 장비 목록 */
         .manager-text { max-width: 700px; font-size: 1.1rem; margin-bottom: 60px; }
-
-        /* 3. 장비 목록 (3개씩 2줄 배치) */
-        .equipment-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3개씩 가로 배치 */
-            gap: 15px;
-            margin-top: 20px;
-        }
-
+        .equipment-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px; }
         .eq-item {
-            background: #0d0d0d;
-            padding: 20px;
-            border: 1px solid #222;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.4s ease;
-            cursor: pointer;
-            opacity: 0.4; /* 평소 채도 낮음 */
-            filter: grayscale(100%); /* 평소 흑백 */
+            background: #0d0d0d; padding: 20px; border: 1px solid #222;
+            display: flex; justify-content: space-between; align-items: center;
+            transition: all 0.4s ease; cursor: pointer; opacity: 0.4; filter: grayscale(100%);
         }
-
-        /* 마우스 호버 시 채도 복구 */
-        .eq-item:hover {
-            opacity: 1;
-            filter: grayscale(0%);
-            background: #151515;
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-
-        /* 각 툴별 고유 색상 포인트 */
-        .eq-item.pr { border-left: 4px solid #312963; } /* Premiere */
-        .eq-item.ae { border-left: 4px solid #312963; } /* After Effects */
-        .eq-item.ps { border-left: 4px solid #31a8ff; } /* Photoshop */
-        .eq-item.ai { border-left: 4px solid #ff9a00; } /* Illustrator */
-        .eq-item.bl { border-left: 4px solid #e87d0d; } /* Blender */
-        .eq-item.id { border-left: 4px solid #ff3366; } /* InDesign */
-
+        .eq-item:hover { opacity: 1; filter: grayscale(0%); background: #151515; transform: translateY(-5px); border-color: rgba(255, 255, 255, 0.2); }
+        .eq-item.pr, .eq-item.ae { border-left: 4px solid #312963; }
+        .eq-item.ps { border-left: 4px solid #31a8ff; }
+        .eq-item.ai, .eq-item.bl { border-left: 4px solid #ff9a00; }
+        .eq-item.id { border-left: 4px solid #ff3366; }
         .eq-name { font-weight: bold; color: #fff; }
         .rent-tag { font-size: 0.6rem; color: #555; font-weight: bold; }
 
-        /* 4. 비디오 그리드 (신작 & 장르별) */
+        /* 비디오 그리드 설정 */
         .video-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px; margin-top: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px; margin-top: 20px;
         }
         .video-card {
-            position: relative; border: 1px solid #222; overflow: hidden;
-            background: #0a0a0a; border-radius: 5px;
+            background: #0a0a0a; border: 1px solid #222; border-radius: 8px; overflow: hidden;
+            position: relative;
         }
-        .video-card img { width: 100%; display: block; filter: brightness(0.6); transition: 0.3s; }
-        .video-card:hover img { filter: brightness(1); }
+        .iframe-container {
+            position: relative; width: 100%; padding-bottom: 56.25%; height: 0;
+        }
+        .iframe-container iframe {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;
+        }
         .video-tag {
-            position: absolute; top: 10px; left: 10px;
-            background: var(--neon-yellow); color: black;
-            padding: 2px 8px; font-size: 0.7rem; font-weight: bold; z-index: 2;
+            position: absolute; top: 10px; left: 10px; background: var(--neon-yellow);
+            color: black; padding: 2px 8px; font-size: 0.7rem; font-weight: bold; z-index: 5;
         }
-        .video-info { padding: 15px; font-size: 0.9rem; }
+        .video-info { padding: 15px; font-size: 0.9rem; font-weight: bold; }
 
-        /* 6. 오리지널 캐릭터 카드 (뒤집기) */
+        /* 캐릭터 카드 */
         .char-grid { display: flex; gap: 30px; flex-wrap: wrap; }
         .flip-card { width: 320px; height: 480px; perspective: 1000px; cursor: pointer; }
         .flip-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
@@ -115,17 +87,13 @@
         .flip-front img { width: 100%; height: 100%; object-fit: cover; border-radius: 15px; }
         .flip-back { background: #111; transform: rotateY(180deg); padding: 30px; display: flex; flex-direction: column; justify-content: center; }
 
-        /* 7. 대여 안내 (영수증) */
+        /* 대여 안내 영수증 */
         .receipt-container { display: flex; justify-content: center; padding: 100px 0; }
         .receipt { 
-            background: #fdfdf5; color: black; width: 380px; padding: 40px; 
-            font-family: 'Courier New', monospace; position: relative; 
+            background: #fdfdf5; color: black; width: 380px; padding: 40px; font-family: 'Courier New', monospace; position: relative; 
             box-shadow: 10px 10px 0px rgba(255, 234, 0, 0.2);
         }
-        .receipt::after {
-            content: "APPROVED"; position: absolute; border: 3px solid #e63946; color: #e63946;
-            padding: 5px 15px; font-weight: bold; bottom: 40px; right: 25px; transform: rotate(-15deg);
-        }
+        .receipt::after { content: "APPROVED"; position: absolute; border: 3px solid #e63946; color: #e63946; padding: 5px 15px; font-weight: bold; bottom: 40px; right: 25px; transform: rotate(-15deg); }
         .dash { border-bottom: 2px dashed #ccc; margin: 20px 0; }
     </style>
 </head>
@@ -147,14 +115,11 @@
         <div class="manager-text">
             <p>VIDEO CLUB의 점주 김근령입니다.</p>
             <p>영상을 보는 걸 좋아해 직접 제작까지 하게 되었습니다.</p>
-            <p>나아가 영상뿐만 아니라 조금 더 넓은 범위의 작업도 하고 있습니다.</p>
             <p style="margin-top: 20px; color: white;">이곳은 그 기록을 모아둔 공간입니다.</p>
         </div>
 
         <span class="label">EQUIPMENT RENTAL</span>
         <h2 class="neon-text" style="font-size: 1.8rem;">장비 목록</h2>
-        <p style="font-size: 0.8rem; color: #666; margin-bottom: 20px;">비디오를 만들기 위해 항상 대여 가능한 장비 목록</p>
-        
         <div class="equipment-grid">
             <div class="eq-item pr"><span class="eq-name">Premiere Pro</span><span class="rent-tag">RENT</span></div>
             <div class="eq-item ae"><span class="eq-name">After Effects</span><span class="rent-tag">RENT</span></div>
@@ -171,13 +136,31 @@
         <div class="video-grid">
             <div class="video-card">
                 <div class="video-tag">AD</div>
-                <img src="4.jpg" alt="AD">
-                <div class="video-info">Product Video</div>
+                <div class="iframe-container">
+                    <iframe src="https://www.youtube.com/embed/-mfwhKQv4MY" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">Concept Video 01</div>
             </div>
             <div class="video-card">
                 <div class="video-tag">ANIMATION</div>
-                <img src="5.jpg" alt="AI">
-                <div class="video-info">AI Animation</div>
+                <div class="iframe-container">
+                    <iframe src="https://www.youtube.com/embed/8XyyVhOo4j4" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">AI Animation Film</div>
+            </div>
+            <div class="video-card">
+                <div class="video-tag">SHORTS</div>
+                <div class="iframe-container">
+                    <iframe src="https://www.youtube.com/embed/hGRN-lwvUU4" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">Special Shorts</div>
+            </div>
+            <div class="video-card">
+                <div class="video-tag">MEDIA ART</div>
+                <div class="iframe-container">
+                    <iframe src="https://www.youtube.com/embed/KbV-dxd6BoQ" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">Artistic Motion Graphics</div>
             </div>
         </div>
     </section>
@@ -188,13 +171,10 @@
         <div class="video-grid">
             <div class="video-card">
                 <div class="video-tag">WEB DRAMA</div>
-                <img src="6.jpg" alt="Drama">
+                <div class="iframe-container">
+                    <iframe src="https://www.youtube.com/embed/-mfwhKQv4MY" allowfullscreen></iframe>
+                </div>
                 <div class="video-info">Web Drama Ep.1</div>
-            </div>
-            <div class="video-card">
-                <div class="video-tag">MEDIA ART</div>
-                <img src="2.jpg" alt="Art">
-                <div class="video-info">Media Art Portfolio</div>
             </div>
         </div>
     </section>
@@ -210,7 +190,6 @@
                         <h2 class="neon-text" style="font-size: 2rem;">IAN</h2>
                         <div class="dash"></div>
                         <p>낮에는 평범한 고등학생,<br>밤에는 인디 밴드 보컬.</p>
-                        <p style="margin-top: 20px; color: #888;">#이중생활 #카리스마</p>
                     </div>
                 </div>
             </div>
@@ -221,7 +200,6 @@
                         <h2 class="neon-text" style="font-size: 2rem;">ECHO</h2>
                         <div class="dash"></div>
                         <p>네오 시티의 그림자 속에서<br>활동하는 작곡가.</p>
-                        <p style="margin-top: 20px; color: #888;">#해커 #자유와집중</p>
                     </div>
                 </div>
             </div>
