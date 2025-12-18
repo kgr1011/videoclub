@@ -36,40 +36,38 @@
 
         /* 공통 섹션 스타일 */
         section { padding: 100px 10%; border-bottom: 1px solid #111; }
-        .label { color: var(--accent-pink); font-size: 0.8rem; font-weight: bold; letter-spacing: 2px; }
+        .label { color: var(--accent-pink); font-size: 0.8rem; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; }
         .section-title { font-size: 2.5rem; margin-top: 10px; margin-bottom: 5px; }
         .section-desc { font-size: 0.8rem; color: #888; margin-bottom: 35px; }
         .manager-text { max-width: 700px; font-size: 1.1rem; margin-bottom: 60px; white-space: pre-line; line-height: 2.2; }
 
-        /* --- 장비 목록: 평소 무채색 -> 호버 시 색상 활성화 --- */
+        /* 장비 목록: 무채색 -> 호버 시 색상 활성화 */
         .equipment-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px; }
         .eq-item { 
-            background: #0d0d0d; padding: 20px; border: 1px solid #222; 
-            transition: all 0.4s ease; 
-            filter: grayscale(100%); opacity: 0.5; /* 기본 상태: 회색조 및 흐림 */
+            background: #0d0d0d; padding: 25px; border: 1px solid #222; 
+            transition: all 0.4s ease; filter: grayscale(100%); opacity: 0.5;
         }
-        .eq-item:hover { 
-            filter: grayscale(0%); opacity: 1; transform: translateY(-5px); 
-            border-color: rgba(255, 255, 255, 0.2); 
-        }
-        /* 각 아이템 왼쪽 바 색상 (호버 시 선명해짐) */
+        .eq-item:hover { filter: grayscale(0%); opacity: 1; transform: translateY(-5px); border-color: rgba(255, 255, 255, 0.2); }
         .eq-item.pr, .eq-item.ae { border-left: 4px solid #312963; }
         .eq-item.ps { border-left: 4px solid #31a8ff; }
         .eq-item.ai, .eq-item.bl { border-left: 4px solid #ff9a00; }
         .eq-item.id { border-left: 4px solid #ff3366; }
 
-        /* --- 장르별 영상: 버튼 디자인 수정 --- */
-        .filter-group { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 30px; }
+        /* 장르별 영상: 필터 디자인 수정 */
+        .filter-container { margin-bottom: 40px; }
+        .filter-sub-label { display: block; font-size: 0.75rem; font-weight: 900; color: #666; margin-bottom: 10px; letter-spacing: 1px; }
+        .filter-group { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 25px; }
+        
         .filter-btn { 
-            background: #1a1a1a; border: 1px solid #333; color: #ccc; 
-            padding: 10px 20px; font-size: 0.85rem; font-weight: 700; 
+            background: none; border: 1px solid #444; color: white; 
+            padding: 8px 18px; font-size: 0.8rem; font-weight: 700; 
             transition: 0.3s; 
         }
         .filter-btn.active { 
-            background: var(--neon-yellow); color: black; border-color: var(--neon-yellow); 
-            box-shadow: 0 0 10px rgba(255, 234, 0, 0.5);
+            background: none; border-color: var(--neon-yellow); color: var(--neon-yellow);
+            box-shadow: inset 0 0 5px rgba(255, 234, 0, 0.2);
         }
-        .filter-btn:hover:not(.active) { border-color: var(--neon-yellow); color: white; }
+        .filter-btn:hover:not(.active) { border-color: #888; }
 
         /* 비디오 그리드 */
         .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
@@ -80,13 +78,7 @@
         .video-tag { position: absolute; top: 10px; left: 10px; background: var(--neon-yellow); color: black; padding: 2px 8px; font-size: 0.7rem; font-weight: bold; z-index: 5; }
         .video-info { padding: 15px; font-size: 0.9rem; font-weight: bold; }
 
-        /* BGM 플레이어 UI */
-        #bgm-container { position: fixed; bottom: 30px; right: 30px; z-index: 1001; background: #111; border: 2px solid var(--neon-yellow); padding: 10px 15px; border-radius: 5px; display: flex; align-items: center; gap: 10px; box-shadow: 0 0 10px rgba(255, 234, 0, 0.3); }
-        .playing .tape-icon { animation: spin 2s linear infinite; }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-        @keyframes grain-jump { 0%, 100% { transform: translate(0, 0); } 10% { transform: translate(-5%, -10%); } 50% { transform: translate(12%, 9%); } 90% { transform: translate(2%, 11%); } }
-
-        /* 캐릭터 카드 */
+        /* 캐릭터 카드 및 영수증 */
         .centered-section { text-align: center; }
         .char-grid { display: flex; gap: 30px; flex-wrap: wrap; justify-content: center; }
         .flip-card { width: 320px; height: 480px; perspective: 1000px; text-align: left; }
@@ -102,6 +94,11 @@
         .receipt { background: #fdfdf5; color: black; width: 380px; padding: 40px; font-family: 'Courier New', monospace; position: relative; box-shadow: 10px 10px 0px rgba(255, 234, 0, 0.2); text-align: left; }
         .receipt::after { content: "APPROVED"; position: absolute; border: 3px solid #e63946; color: #e63946; padding: 5px 15px; font-weight: bold; bottom: 40px; right: 25px; transform: rotate(-15deg); }
         .dash { border-bottom: 2px dashed #ccc; margin: 20px 0; }
+
+        #bgm-container { position: fixed; bottom: 30px; right: 30px; z-index: 1001; background: #111; border: 2px solid var(--neon-yellow); padding: 10px 15px; border-radius: 5px; display: flex; align-items: center; gap: 10px; box-shadow: 0 0 10px rgba(255, 234, 0, 0.3); }
+        .playing .tape-icon { animation: spin 2s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes grain-jump { 0%, 100% { transform: translate(0, 0); } 10% { transform: translate(-5%, -10%); } 50% { transform: translate(12%, 9%); } 90% { transform: translate(2%, 11%); } }
     </style>
 </head>
 <body>
@@ -159,43 +156,41 @@
         </div>
     </section>
 
-    <section id="new">
-        <span class="label">NEW RELEASES</span>
-        <h2 class="neon-text section-title">신작 코너</h2>
-        <div class="section-desc">최근 입고된 테이프들입니다. 클릭하여 감상하세요.</div>
-        <div class="video-grid">
-            <div class="video-card"><div class="iframe-container"><iframe src="https://www.youtube.com/embed/-mfwhKQv4MY" allowfullscreen></iframe></div><div class="video-info">Product Video</div></div>
-            <div class="video-card"><div class="iframe-container"><iframe src="https://www.youtube.com/embed/8XyyVhOo4j4" allowfullscreen></iframe></div><div class="video-info">AI Animation Film</div></div>
-            <div class="video-card"><div class="iframe-container"><iframe src="https://www.youtube.com/embed/hGRN-lwvUU4" allowfullscreen></iframe></div><div class="video-info">3D Animation</div></div>
-            <div class="video-card"><div class="iframe-container"><iframe src="https://www.youtube.com/embed/KbV-dxd6BoQ" allowfullscreen></iframe></div><div class="video-info">WEBDRAMA</div></div>
-        </div>
-    </section>
-
     <section id="genres">
         <span class="label">GENRES</span>
         <h2 class="neon-text section-title">장르별 영상</h2>
         <div class="section-desc">원하시는 장르의 테이프를 골라보세요.</div>
-        <div class="filter-group">
-            <button class="filter-btn active" data-filter="all">ALL</button>
-            <button class="filter-btn" data-filter="ANIMATION">ANIMATION</button>
-            <button class="filter-btn" data-filter="SHORTS">SHORTS</button>
-            <button class="filter-btn" data-filter="WEBDRAMA">WEBDRAMA</button>
-            <button class="filter-btn" data-filter="MEDIA ART">MEDIA ART</button>
-            <button class="filter-btn" data-filter="AD">AD</button>
-            <button class="filter-btn" data-filter="PODCAST">PODCAST</button>
+        
+        <div class="filter-container">
+            <span class="filter-sub-label">SHELVES</span>
+            <div class="filter-group">
+                <button class="filter-btn active" data-filter="all">ALL</button>
+                <button class="filter-btn" data-filter="VIDEO">VIDEO</button>
+            </div>
+            
+            <span class="filter-sub-label">VIDEO GENRES</span>
+            <div class="filter-group">
+                <button class="filter-btn" data-filter="ANIMATION">ANIMATION</button>
+                <button class="filter-btn" data-filter="3D ANIMATION">3D ANIMATION</button>
+                <button class="filter-btn" data-filter="AD">AD</button>
+                <button class="filter-btn" data-filter="WEBDRAMA">WEBDRAMA</button>
+                <button class="filter-btn" data-filter="MEDIA ART">MEDIA ART</button>
+                <button class="filter-btn" data-filter="PODCAST">PODCAST</button>
+            </div>
         </div>
+
         <div class="video-grid" id="filtered-grid">
-            <div class="video-card" data-category="MEDIA ART"><div class="iframe-container"><iframe src="https://www.youtube.com/embed/vCSrwtncK0Y"></iframe></div><div class="video-info">Media Art</div></div>
-            <div class="video-card" data-category="PODCAST"><div class="iframe-container"><iframe src="https://www.youtube.com/embed/tR-zDeqXqO4"></iframe></div><div class="video-info">Podcast Ep.1</div></div>
-            <div class="video-card" data-category="PODCAST"><div class="iframe-container"><iframe src="https://www.youtube.com/embed/DVWGfjU2-Jw"></iframe></div><div class="video-info">Podcast Ep.2</div></div>
-            <div class="video-card" data-category="PODCAST"><div class="iframe-container"><iframe src="https://www.youtube.com/embed/6cFyGEuheX0"></iframe></div><div class="video-info">Podcast Ep.3</div></div>
-            <div class="video-card" data-category="PODCAST"><div class="iframe-container"><iframe src="https://www.youtube.com/embed/4XuNehNNy0o"></iframe></div><div class="video-info">Podcast Ep.4</div></div>
-            <div class="video-card" data-category="PODCAST"><div class="iframe-container"><iframe src="https://www.youtube.com/embed/prne2fJYE7I"></iframe></div><div class="video-info">Podcast Ep.5</div></div>
-            <div class="video-card" data-category="PODCAST"><div class="iframe-container"><iframe src="https://www.youtube.com/embed/faz2WUjPSdo"></iframe></div><div class="video-info">Podcast Ep.6</div></div>
-            <div class="video-card" data-category="ANIMATION"><div class="iframe-container"><iframe src="https://www.youtube.com/embed/8XyyVhOo4j4"></iframe></div><div class="video-info">AI Animation Film</div></div>
-            <div class="video-card" data-category="SHORTS"><div class="iframe-container"><iframe src="https://www.youtube.com/embed/hGRN-lwvUU4"></iframe></div><div class="video-info">3D Animation</div></div>
-            <div class="video-card" data-category="WEBDRAMA"><div class="iframe-container"><iframe src="https://www.youtube.com/embed/KbV-dxd6BoQ"></iframe></div><div class="video-info">Web Drama</div></div>
-            <div class="video-card" data-category="AD"><div class="iframe-container"><iframe src="https://www.youtube.com/embed/-mfwhKQv4MY"></iframe></div><div class="video-info">Product Video</div></div>
+            <div class="video-card" data-category="MEDIA ART VIDEO"><div class="video-tag">MEDIA ART</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/vCSrwtncK0Y"></iframe></div><div class="video-info">Media Art</div></div>
+            <div class="video-card" data-category="PODCAST VIDEO"><div class="video-tag">PODCAST</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/tR-zDeqXqO4"></iframe></div><div class="video-info">Podcast Ep.1</div></div>
+            <div class="video-card" data-category="PODCAST VIDEO"><div class="video-tag">PODCAST</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/DVWGfjU2-Jw"></iframe></div><div class="video-info">Podcast Ep.2</div></div>
+            <div class="video-card" data-category="PODCAST VIDEO"><div class="video-tag">PODCAST</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/6cFyGEuheX0"></iframe></div><div class="video-info">Podcast Ep.3</div></div>
+            <div class="video-card" data-category="PODCAST VIDEO"><div class="video-tag">PODCAST</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/4XuNehNNy0o"></iframe></div><div class="video-info">Podcast Ep.4</div></div>
+            <div class="video-card" data-category="PODCAST VIDEO"><div class="video-tag">PODCAST</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/prne2fJYE7I"></iframe></div><div class="video-info">Podcast Ep.5</div></div>
+            <div class="video-card" data-category="PODCAST VIDEO"><div class="video-tag">PODCAST</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/faz2WUjPSdo"></iframe></div><div class="video-info">Podcast Ep.6</div></div>
+            <div class="video-card" data-category="ANIMATION VIDEO"><div class="video-tag">ANIMATION</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/8XyyVhOo4j4"></iframe></div><div class="video-info">AI Animation Film</div></div>
+            <div class="video-card" data-category="3D ANIMATION VIDEO"><div class="video-tag">3D ANIMATION</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/hGRN-lwvUU4"></iframe></div><div class="video-info">3D Animation</div></div>
+            <div class="video-card" data-category="WEBDRAMA VIDEO"><div class="video-tag">WEBDRAMA</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/KbV-dxd6BoQ"></iframe></div><div class="video-info">Web Drama</div></div>
+            <div class="video-card" data-category="AD VIDEO"><div class="video-tag">AD</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/-mfwhKQv4MY"></iframe></div><div class="video-info">Product Video</div></div>
         </div>
     </section>
 
@@ -249,7 +244,7 @@
         document.addEventListener('mousemove', e => {
             dot.style.left = e.clientX + 'px';
             dot.style.top = e.clientY + 'px';
-            setTimeout(() => { trail.style.left = e.clientX + 'px'; trail.style.top = e.clientY + 'px'; }, 100);
+            setTimeout(() => { trail.style.left = e.clientX + 'px'; trail.style.top = e.clientY + 'px'; }, 120);
         });
 
         const clickSound = document.getElementById('click-sound');
@@ -287,7 +282,8 @@
                 button.classList.add('active');
                 const filter = button.getAttribute('data-filter');
                 cards.forEach(card => {
-                    if (filter === 'all' || card.getAttribute('data-category') === filter) card.classList.remove('hide');
+                    const cat = card.getAttribute('data-category');
+                    if (filter === 'all' || cat.includes(filter)) card.classList.remove('hide');
                     else card.classList.add('hide');
                 });
             });
