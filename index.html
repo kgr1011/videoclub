@@ -12,26 +12,49 @@
             --accent-pink: #FF2D78;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; } /* 기본 커서 숨김 */
         body { background-color: var(--bg-black); color: white; font-family: 'Noto Sans KR', sans-serif; line-height: 1.6; overflow-x: hidden; }
 
-        .neon-text {
-            color: var(--neon-yellow);
-            text-shadow: 0 0 10px rgba(255, 234, 0, 0.7);
-            font-weight: 900;
+        /* --- 1. VCR 노이즈 효과 --- */
+        .vcr-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: transparent; pointer-events: none; z-index: 9998; opacity: 0.05;
+        }
+        .vcr-overlay::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/7/76/1k_Resolution_White_Noise.png');
+            animation: noise 0.2s infinite;
+        }
+        @keyframes noise {
+            0% { transform: translate(0,0); }
+            10% { transform: translate(-5%,-5%); }
+            20% { transform: translate(-10%,5%); }
+            30% { transform: translate(5%,-10%); }
+            40% { transform: translate(-5%,15%); }
+            50% { transform: translate(-10%,5%); }
+            60% { transform: translate(15%,0); }
+            70% { transform: translate(0,10%); }
+            80% { transform: translate(-15%,0); }
+            90% { transform: translate(10%,5%); }
+            100% { transform: translate(5%,0); }
         }
 
-        header {
-            position: fixed; top: 0; width: 100%; padding: 20px 5%;
-            display: flex; justify-content: space-between; align-items: center;
-            background: rgba(0,0,0,0.8); z-index: 1000;
+        /* --- 2. 네온 커서 --- */
+        #cursor {
+            position: fixed; width: 20px; height: 20px;
+            background: var(--neon-yellow); border-radius: 50%;
+            pointer-events: none; transform: translate(-50%, -50%);
+            z-index: 9999; transition: transform 0.1s ease-out;
+            box-shadow: 0 0 15px var(--neon-yellow), 0 0 30px var(--neon-yellow);
         }
 
+        .neon-text { color: var(--neon-yellow); text-shadow: 0 0 10px rgba(255, 234, 0, 0.7); font-weight: 900; }
+        header { position: fixed; top: 0; width: 100%; padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.8); z-index: 1000; }
+        
         .hero {
-            height: 100vh; display: flex; flex-direction: column; justify-content: center;
-            padding: 0 10%;
-            background: linear-gradient(to right, rgba(0,0,0,0.85) 30%, rgba(0,0,0,0.2)), url('./1.jpg');
-            background-size: cover; background-position: center;
+            height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 0 10%;
+            background: linear-gradient(to right, rgba(0,0,0,0.85) 30%, rgba(0,0,0,0.2)), url('./1.jpg') no-repeat center center;
+            background-size: cover;
         }
         .hero h1 { font-size: clamp(2.5rem, 6vw, 4rem); line-height: 1.1; margin-bottom: 20px; }
 
@@ -39,44 +62,37 @@
         .label { color: var(--accent-pink); font-size: 0.8rem; font-weight: bold; letter-spacing: 2px; }
         .section-title { font-size: 2.5rem; margin-top: 10px; margin-bottom: 5px; }
         .section-desc { font-size: 0.8rem; color: #888; margin-bottom: 35px; }
+        .manager-text { max-width: 700px; font-size: 1.1rem; margin-bottom: 60px; white-space: pre-line; line-height: 2.2; }
 
-        /* 점주 소개 문구 간격 수정 부분 */
-        .manager-text { 
-            max-width: 700px; 
-            font-size: 1.1rem; 
-            margin-bottom: 60px; 
-            white-space: pre-line; 
-            line-height: 2.2; /* 위아래 간격을 더 넓혔습니다 */
+        /* --- 3. BGM 플레이어 UI --- */
+        #bgm-container {
+            position: fixed; bottom: 30px; right: 30px; z-index: 1001;
+            background: #111; border: 2px solid var(--neon-yellow);
+            padding: 10px 15px; border-radius: 5px; display: flex; align-items: center; gap: 10px;
+            box-shadow: 0 0 10px rgba(255, 234, 0, 0.3);
         }
+        .tape-icon { font-size: 1.2rem; display: none; }
+        .playing .tape-icon { display: inline-block; animation: spin 2s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
 
+        /* 비디오 및 캐릭터 카드 등 기존 스타일 유지 */
         .equipment-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px; }
-        .eq-item {
-            background: #0d0d0d; padding: 20px; border: 1px solid #222;
-            display: flex; justify-content: space-between; align-items: center;
-            transition: all 0.4s ease; cursor: pointer; opacity: 0.4; filter: grayscale(100%);
-        }
-        .eq-item:hover { opacity: 1; filter: grayscale(0%); background: #151515; transform: translateY(-5px); border-color: rgba(255, 255, 255, 0.2); }
+        .eq-item { background: #0d0d0d; padding: 20px; border: 1px solid #222; display: flex; justify-content: space-between; align-items: center; transition: all 0.4s ease; opacity: 0.4; filter: grayscale(100%); }
+        .eq-item:hover { opacity: 1; filter: grayscale(0%); transform: translateY(-5px); border-color: rgba(255, 255, 255, 0.2); }
         .eq-item.pr, .eq-item.ae { border-left: 4px solid #312963; }
         .eq-item.ps { border-left: 4px solid #31a8ff; }
         .eq-item.ai, .eq-item.bl { border-left: 4px solid #ff9a00; }
         .eq-item.id { border-left: 4px solid #ff3366; }
-        .eq-name { font-weight: bold; color: #fff; }
-        .rent-tag { font-size: 0.6rem; color: #555; font-weight: bold; }
+        .eq-name { font-weight: bold; }
+        .rent-tag { font-size: 0.6rem; color: #555; }
 
-        .filter-container { margin-bottom: 40px; }
-        .filter-sub { font-size: 0.7rem; color: #666; font-weight: 900; letter-spacing: 1px; display: block; margin-bottom: 10px; }
         .filter-group { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 25px; }
-        .filter-btn {
-            background: none; border: 1px solid #333; color: white;
-            padding: 8px 18px; cursor: pointer; font-size: 0.8rem; transition: 0.3s;
-            font-weight: 700;
-        }
+        .filter-btn { background: none; border: 1px solid #333; color: white; padding: 8px 18px; font-size: 0.8rem; transition: 0.3s; font-weight: 700; }
         .filter-btn.active { background: var(--neon-yellow); color: black; border-color: var(--neon-yellow); }
 
         .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
         .video-card { background: #0a0a0a; border: 1px solid #222; border-radius: 8px; overflow: hidden; position: relative; transition: 0.4s; }
         .video-card.hide { display: none; }
-        
         .iframe-container { position: relative; width: 100%; padding-bottom: 56.25%; height: 0; }
         .iframe-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
         .video-tag { position: absolute; top: 10px; left: 10px; background: var(--neon-yellow); color: black; padding: 2px 8px; font-size: 0.7rem; font-weight: bold; z-index: 5; }
@@ -84,14 +100,12 @@
 
         .centered-section { text-align: center; }
         .char-grid { display: flex; gap: 30px; flex-wrap: wrap; justify-content: center; }
-        .flip-card { width: 320px; height: 480px; perspective: 1000px; cursor: pointer; text-align: left; }
+        .flip-card { width: 320px; height: 480px; perspective: 1000px; text-align: left; }
         .flip-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
         .flip-card.is-flipped .flip-inner { transform: rotateY(180deg); }
         .flip-front, .flip-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 15px; border: 1px solid #333; }
         .flip-front img { width: 100%; height: 100%; object-fit: cover; border-radius: 15px; }
-        .flip-back { background: #111; transform: rotateY(180deg); padding: 25px; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
-        
-        .char-info-list { font-size: 0.8rem; line-height: 1.4; margin: 10px 0; }
+        .flip-back { background: #111; transform: rotateY(180deg); padding: 25px; display: flex; flex-direction: column; justify-content: center; }
         .char-info-list b { color: var(--neon-yellow); display: inline-block; width: 45px; }
         .char-tags { font-size: 0.75rem; color: var(--accent-pink); margin-top: 10px; }
 
@@ -102,6 +116,22 @@
     </style>
 </head>
 <body>
+
+    <div class="vcr-overlay"></div>
+    <div id="cursor"></div>
+
+    <div id="bgm-container">
+        <span class="tape-icon">📼</span>
+        <span id="bgm-text" style="font-size: 0.8rem; font-weight: bold;">BGM OFF</span>
+        <div id="controls" style="display: flex; gap: 5px; margin-left: 10px;">
+            <button onclick="playPrev()" style="background:none; border:none; color:white; font-size: 0.7rem;">◀</button>
+            <button id="play-btn" onclick="toggleBGM()" style="background:none; border:none; color:white; font-size: 0.7rem;">PLAY</button>
+            <button onclick="playNext()" style="background:none; border:none; color:white; font-size: 0.7rem;">▶</button>
+        </div>
+        <audio id="main-audio"></audio>
+    </div>
+
+    <audio id="click-sound" src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3"></audio>
 
     <header>
         <div class="logo neon-text">GEUNRYEONG VIDEO CLUB</div>
@@ -144,26 +174,10 @@
         <h2 class="neon-text section-title">신작 코너</h2>
         <div class="section-desc">최근 입고된 테이프들입니다. 클릭하여 감상하세요.</div>
         <div class="video-grid">
-            <div class="video-card">
-                <div class="video-tag">PRODUCT</div>
-                <div class="iframe-container"><iframe src="https://www.youtube.com/embed/-mfwhKQv4MY" allowfullscreen title="Product Video"></iframe></div>
-                <div class="video-info">Product Video</div>
-            </div>
-            <div class="video-card">
-                <div class="video-tag">ANIMATION</div>
-                <div class="iframe-container"><iframe src="https://www.youtube.com/embed/8XyyVhOo4j4" allowfullscreen title="AI Animation Film"></iframe></div>
-                <div class="video-info">AI Animation Film</div>
-            </div>
-            <div class="video-card">
-                <div class="video-tag">3D</div>
-                <div class="iframe-container"><iframe src="https://www.youtube.com/embed/hGRN-lwvUU4" allowfullscreen title="3D Animation"></iframe></div>
-                <div class="video-info">3D Animation</div>
-            </div>
-            <div class="video-card">
-                <div class="video-tag">WEBDRAMA</div>
-                <div class="iframe-container"><iframe src="https://www.youtube.com/embed/KbV-dxd6BoQ" allowfullscreen title="WEBDRAMA"></iframe></div>
-                <div class="video-info">WEBDRAMA</div>
-            </div>
+            <div class="video-card"><div class="video-tag">PRODUCT</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/-mfwhKQv4MY"></iframe></div><div class="video-info">Product Video</div></div>
+            <div class="video-card"><div class="video-tag">ANIMATION</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/8XyyVhOo4j4"></iframe></div><div class="video-info">AI Animation Film</div></div>
+            <div class="video-card"><div class="video-tag">3D</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/hGRN-lwvUU4"></iframe></div><div class="video-info">3D Animation</div></div>
+            <div class="video-card"><div class="video-tag">WEBDRAMA</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/KbV-dxd6BoQ"></iframe></div><div class="video-info">WEBDRAMA</div></div>
         </div>
     </section>
 
@@ -171,77 +185,27 @@
         <span class="label">GENRES</span>
         <h2 class="neon-text section-title">장르별 영상</h2>
         <div class="section-desc">원하시는 장르의 테이프를 골라보세요.</div>
-        <div class="filter-container">
-            <span class="filter-sub">SHELVES</span>
-            <div class="filter-group">
-                <button class="filter-btn active" data-filter="all">ALL</button>
-            </div>
-            <span class="filter-sub">VIDEO GENRES</span>
-            <div class="filter-group">
-                <button class="filter-btn" data-filter="ANIMATION">ANIMATION</button>
-                <button class="filter-btn" data-filter="SHORTS">SHORTS</button>
-                <button class="filter-btn" data-filter="WEBDRAMA">WEBDRAMA</button>
-                <button class="filter-btn" data-filter="MEDIA ART">MEDIA ART</button>
-                <button class="filter-btn" data-filter="AD">AD</button>
-                <button class="filter-btn" data-filter="PODCAST">PODCAST</button>
-            </div>
+        <div class="filter-group">
+            <button class="filter-btn active" data-filter="all">ALL</button>
+            <button class="filter-btn" data-filter="ANIMATION">ANIMATION</button>
+            <button class="filter-btn" data-filter="SHORTS">SHORTS</button>
+            <button class="filter-btn" data-filter="WEBDRAMA">WEBDRAMA</button>
+            <button class="filter-btn" data-filter="MEDIA ART">MEDIA ART</button>
+            <button class="filter-btn" data-filter="AD">AD</button>
+            <button class="filter-btn" data-filter="PODCAST">PODCAST</button>
         </div>
         <div class="video-grid" id="filtered-grid">
-            <div class="video-card" data-category="MEDIA ART">
-                <div class="video-tag">MEDIA ART</div>
-                <div class="iframe-container"><iframe src="https://www.youtube.com/embed/vCSrwtncK0Y" allowfullscreen title="Media Art"></iframe></div>
-                <div class="video-info">Media Art</div>
-            </div>
-            <div class="video-card" data-category="PODCAST">
-                <div class="video-tag">PODCAST</div>
-                <div class="iframe-container"><iframe src="https://www.youtube.com/embed/tR-zDeqXqO4" allowfullscreen title="Podcast Ep.1"></iframe></div>
-                <div class="video-info">Podcast Ep.1</div>
-            </div>
-            <div class="video-card" data-category="PODCAST">
-                <div class="video-tag">PODCAST</div>
-                <div class="iframe-container"><iframe src="https://www.youtube.com/embed/DVWGfjU2-Jw" allowfullscreen title="Podcast Ep.2"></iframe></div>
-                <div class="video-info">Podcast Ep.2</div>
-            </div>
-            <div class="video-card" data-category="PODCAST">
-                <div class="video-tag">PODCAST</div>
-                <div class="iframe-container"><iframe src="https://www.youtube.com/embed/6cFyGEuheX0" allowfullscreen title="Podcast Ep.3"></iframe></div>
-                <div class="video-info">Podcast Ep.3</div>
-            </div>
-            <div class="video-card" data-category="PODCAST">
-                <div class="video-tag">PODCAST</div>
-                <div class="iframe-container"><iframe src="https://www.youtube.com/embed/4XuNehNNy0o" allowfullscreen title="Podcast Ep.4"></iframe></div>
-                <div class="video-info">Podcast Ep.4</div>
-            </div>
-            <div class="video-card" data-category="PODCAST">
-                <div class="video-tag">PODCAST</div>
-                <div class="iframe-container"><iframe src="https://www.youtube.com/embed/prne2fJYE7I" allowfullscreen title="Podcast Ep.5"></iframe></div>
-                <div class="video-info">Podcast Ep.5</div>
-            </div>
-            <div class="video-card" data-category="PODCAST">
-                <div class="video-tag">PODCAST</div>
-                <div class="iframe-container"><iframe src="https://www.youtube.com/embed/faz2WUjPSdo" allowfullscreen title="Podcast Ep.6"></iframe></div>
-                <div class="video-info">Podcast Ep.6</div>
-            </div>
-            <div class="video-card" data-category="ANIMATION">
-                <div class="video-tag">ANIMATION</div>
-                <div class="iframe-container"><iframe src="https://www.youtube.com/embed/8XyyVhOo4j4" allowfullscreen title="AI Animation Film"></iframe></div>
-                <div class="video-info">AI Animation Film</div>
-            </div>
-            <div class="video-card" data-category="SHORTS">
-                <div class="video-tag">SHORTS</div>
-                <div class="iframe-container"><iframe src="https://www.youtube.com/embed/hGRN-lwvUU4" allowfullscreen title="3D Animation"></iframe></div>
-                <div class="video-info">3D Animation</div>
-            </div>
-            <div class="video-card" data-category="WEBDRAMA">
-                <div class="video-tag">WEBDRAMA</div>
-                <div class="iframe-container"><iframe src="https://www.youtube.com/embed/KbV-dxd6BoQ" allowfullscreen title="Web Drama"></iframe></div>
-                <div class="video-info">Web Drama</div>
-            </div>
-            <div class="video-card" data-category="AD">
-                <div class="video-tag">AD</div>
-                <div class="iframe-container"><iframe src="https://www.youtube.com/embed/-mfwhKQv4MY" allowfullscreen title="Product Video"></iframe></div>
-                <div class="video-info">Product Video</div>
-            </div>
+            <div class="video-card" data-category="MEDIA ART"><div class="video-tag">MEDIA ART</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/vCSrwtncK0Y"></iframe></div><div class="video-info">Media Art</div></div>
+            <div class="video-card" data-category="PODCAST"><div class="video-tag">PODCAST</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/tR-zDeqXqO4"></iframe></div><div class="video-info">Podcast Ep.1</div></div>
+            <div class="video-card" data-category="PODCAST"><div class="video-tag">PODCAST</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/DVWGfjU2-Jw"></iframe></div><div class="video-info">Podcast Ep.2</div></div>
+            <div class="video-card" data-category="PODCAST"><div class="video-tag">PODCAST</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/6cFyGEuheX0"></iframe></div><div class="video-info">Podcast Ep.3</div></div>
+            <div class="video-card" data-category="PODCAST"><div class="video-tag">PODCAST</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/4XuNehNNy0o"></iframe></div><div class="video-info">Podcast Ep.4</div></div>
+            <div class="video-card" data-category="PODCAST"><div class="video-tag">PODCAST</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/prne2fJYE7I"></iframe></div><div class="video-info">Podcast Ep.5</div></div>
+            <div class="video-card" data-category="PODCAST"><div class="video-tag">PODCAST</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/faz2WUjPSdo"></iframe></div><div class="video-info">Podcast Ep.6</div></div>
+            <div class="video-card" data-category="ANIMATION"><div class="video-tag">ANIMATION</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/8XyyVhOo4j4"></iframe></div><div class="video-info">AI Animation Film</div></div>
+            <div class="video-card" data-category="SHORTS"><div class="video-tag">SHORTS</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/hGRN-lwvUU4"></iframe></div><div class="video-info">3D Animation</div></div>
+            <div class="video-card" data-category="WEBDRAMA"><div class="video-tag">WEBDRAMA</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/KbV-dxd6BoQ"></iframe></div><div class="video-info">Web Drama</div></div>
+            <div class="video-card" data-category="AD"><div class="video-tag">AD</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/-mfwhKQv4MY"></iframe></div><div class="video-info">Product Video</div></div>
         </div>
     </section>
 
@@ -250,80 +214,127 @@
         <h2 class="neon-text section-title">오리지널 캐릭터</h2>
         <div class="section-desc">카드를 클릭하면 캐릭터 프로필을 볼 수 있습니다.</div>
         <div class="char-grid">
-            <div class="flip-card" onclick="this.classList.toggle('is-flipped')">
+            <div class="flip-card" onclick="flipChar(this)">
                 <div class="flip-inner">
                     <div class="flip-front"><img src="7.jpg" alt="IAN"></div>
                     <div class="flip-back">
                         <h2 class="neon-text" style="font-size: 2rem;">IAN</h2>
                         <div class="dash"></div>
-                        <p style="font-size: 0.9rem;">낮에는 평범한 고등학생,<br>밤에는 인디 밴드 보컬.</p>
-                        <div class="char-info-list">
-                            <p><b>나이</b> 18세</p>
-                            <p><b>역할</b> 학생 / 인디 밴드 보컬</p>
-                            <p><b>테마</b> 이중 생활</p>
-                        </div>
-                        <div class="char-tags">
-                            #이중생활 #갭모에<br>#카리스마보컬 #안경스위치
-                        </div>
+                        <p style="font-size: 0.9rem;">낮에는 평범한 고등학생, 밤에는 인디 밴드 보컬.</p>
+                        <div class="char-info-list"><p><b>나이</b> 18세</p><p><b>역할</b> 학생 / 보컬</p><p><b>테마</b> 이중 생활</p></div>
+                        <div class="char-tags">#이중생활 #갭모에 #안경스위치</div>
                     </div>
                 </div>
             </div>
-            <div class="flip-card" onclick="this.classList.toggle('is-flipped')">
+            <div class="flip-card" onclick="flipChar(this)">
                 <div class="flip-inner">
                     <div class="flip-front"><img src="8.jpg" alt="ECHO"></div>
                     <div class="flip-back">
                         <h2 class="neon-text" style="font-size: 2rem;">ECHO</h2>
                         <div class="dash"></div>
-                        <p style="font-size: 0.9rem;">네오 시티의 그림자 속에서<br>활동하는 언더그라운드 작곡가.</p>
-                        <div class="char-info-list">
-                            <p><b>나이</b> 20대 초반</p>
-                            <p><b>역할</b> 작곡가 / 해커</p>
-                            <p><b>테마</b> 자유와 집중</p>
-                        </div>
-                        <div class="char-tags">
-                            #무심 #츤데레<br>#자유추구 #집중력
-                        </div>
+                        <p style="font-size: 0.9rem;">네오 시티의 언더그라운드 작곡가.</p>
+                        <div class="char-info-list"><p><b>나이</b> 20대 초반</p><p><b>역할</b> 작곡가 / 해커</p><p><b>테마</b> 자유와 집중</p></div>
+                        <div class="char-tags">#무심 #츤데레 #자유추구</div>
                     </div>
                 </div>
             </div>
         </div>
-        <div style="font-size: 0.7rem; color: #555; margin-top: 40px; letter-spacing: 1px;">
-            * 모든 캐릭터는 오리지널 창작물입니다 *
-        </div>
+        <div style="font-size: 0.7rem; color: #555; margin-top: 40px;">* 모든 캐릭터는 오리지널 창작물입니다 *</div>
     </section>
 
     <div class="receipt-container">
-        <div style="margin-bottom: 20px;">
-            <span class="label">RENTAL INFO</span>
-            <h2 class="neon-text section-title">대여 안내</h2>
-            <div class="section-desc">방문해 주셔서 감사합니다. 연락은 아래 정보를 이용해 주세요.</div>
-        </div>
+        <div style="margin-bottom: 20px;"><span class="label">RENTAL INFO</span><h2 class="neon-text section-title">대여 안내</h2></div>
         <div class="receipt">
-            <p style="text-align: center; font-weight: bold;">VIDEO CLUB RENTAL INFO</p>
+            <p style="text-align: center; font-weight: bold;">VIDEO CLUB INFO</p>
             <div class="dash"></div>
             <p>EMAIL: rrf0524@naver.com</p>
             <p>INSTAGRAM: @kim__dobby_is_free</p>
             <p>KAKAOTALK: kgr__0524</p>
             <div class="dash"></div>
-            <p style="text-align: center; font-size: 0.8rem; margin-top: 20px;">THANK YOU FOR VISITING</p>
+            <p style="text-align: center; font-size: 0.8rem; margin-top: 20px;">THANK YOU</p>
         </div>
     </div>
 
     <script>
+        // 네온 커서 로직
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', e => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // 테이프 찰칵 효과음 로직
+        const clickSound = document.getElementById('click-sound');
+        function playClick() { clickSound.currentTime = 0; clickSound.play(); }
+
+        // 캐릭터 카드 뒤집기 + 효과음
+        function flipChar(el) { playClick(); el.classList.toggle('is-flipped'); }
+
+        // BGM 플레이리스트 (업로드된 4곡)
+        const playlist = [
+            "http://googleusercontent.com/file_content/0", // Cup O Tea
+            "http://googleusercontent.com/file_content/1", // Digital Horizon
+            "http://googleusercontent.com/file_content/2", // Affogato
+            "http://googleusercontent.com/file_content/3"  // Oak
+        ];
+        let currentTrack = 0;
+        const mainAudio = document.getElementById('main-audio');
+        const bgmContainer = document.getElementById('bgm-container');
+        const bgmText = document.getElementById('bgm-text');
+        const playBtn = document.getElementById('play-btn');
+
+        function loadTrack(index) { mainAudio.src = playlist[index]; }
+        loadTrack(currentTrack);
+
+        function toggleBGM() {
+            playClick();
+            if (mainAudio.paused) {
+                mainAudio.play();
+                bgmContainer.classList.add('playing');
+                bgmText.innerText = "BGM ON";
+                playBtn.innerText = "PAUSE";
+            } else {
+                mainAudio.pause();
+                bgmContainer.classList.remove('playing');
+                bgmText.innerText = "BGM OFF";
+                playBtn.innerText = "PLAY";
+            }
+        }
+
+        function playNext() {
+            playClick();
+            currentTrack = (currentTrack + 1) % playlist.length;
+            loadTrack(currentTrack);
+            mainAudio.play();
+            bgmContainer.classList.add('playing');
+            bgmText.innerText = "BGM ON";
+            playBtn.innerText = "PAUSE";
+        }
+
+        function playPrev() {
+            playClick();
+            currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
+            loadTrack(currentTrack);
+            mainAudio.play();
+            bgmContainer.classList.add('playing');
+            bgmText.innerText = "BGM ON";
+            playBtn.innerText = "PAUSE";
+        }
+
+        mainAudio.onended = () => { playNext(); };
+
+        // 비디오 필터 로직
         const buttons = document.querySelectorAll('.filter-btn');
         const cards = document.querySelectorAll('#filtered-grid .video-card');
-
         buttons.forEach(button => {
             button.addEventListener('click', () => {
+                playClick();
                 buttons.forEach(btn => btn.classList.remove('active'));
                 button.classList.add('active');
                 const filter = button.getAttribute('data-filter');
                 cards.forEach(card => {
-                    if (filter === 'all' || card.getAttribute('data-category') === filter) {
-                        card.classList.remove('hide');
-                    } else {
-                        card.classList.add('hide');
-                    }
+                    if (filter === 'all' || card.getAttribute('data-category') === filter) card.classList.remove('hide');
+                    else card.classList.add('hide');
                 });
             });
         });
