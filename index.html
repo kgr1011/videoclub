@@ -75,7 +75,6 @@
         .video-tag { position: absolute; top: 10px; left: 10px; background: var(--neon-yellow); color: black; padding: 2px 8px; font-size: 0.7rem; font-weight: bold; z-index: 5; }
         .video-info { padding: 15px; font-size: 0.9rem; font-weight: bold; }
 
-        /* 캐릭터 섹션 가운데 정렬 */
         .centered-section { text-align: center; }
         .char-grid { display: flex; gap: 30px; flex-wrap: wrap; justify-content: center; }
         .flip-card { width: 320px; height: 480px; perspective: 1000px; cursor: pointer; text-align: left; }
@@ -83,9 +82,12 @@
         .flip-card.is-flipped .flip-inner { transform: rotateY(180deg); }
         .flip-front, .flip-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 15px; border: 1px solid #333; }
         .flip-front img { width: 100%; height: 100%; object-fit: cover; border-radius: 15px; }
-        .flip-back { background: #111; transform: rotateY(180deg); padding: 30px; display: flex; flex-direction: column; justify-content: center; }
+        .flip-back { background: #111; transform: rotateY(180deg); padding: 25px; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+        
+        .char-info-list { font-size: 0.8rem; line-height: 1.4; margin: 10px 0; }
+        .char-info-list b { color: var(--neon-yellow); display: inline-block; width: 45px; }
+        .char-tags { font-size: 0.75rem; color: var(--accent-pink); margin-top: 10px; }
 
-        /* 하단 대여 안내 및 영수증 가운데 정렬 */
         .receipt-container { display: flex; flex-direction: column; align-items: center; padding: 100px 10%; background: #050505; text-align: center; }
         .receipt { background: #fdfdf5; color: black; width: 380px; padding: 40px; font-family: 'Courier New', monospace; position: relative; box-shadow: 10px 10px 0px rgba(255, 234, 0, 0.2); text-align: left; }
         .receipt::after { content: "APPROVED"; position: absolute; border: 3px solid #e63946; color: #e63946; padding: 5px 15px; font-weight: bold; bottom: 40px; right: 25px; transform: rotate(-15deg); }
@@ -162,13 +164,11 @@
         <span class="label">GENRES</span>
         <h2 class="neon-text section-title">장르별 영상</h2>
         <div class="section-desc">원하시는 장르의 테이프를 골라보세요.</div>
-        
         <div class="filter-container">
             <span class="filter-sub">SHELVES</span>
             <div class="filter-group">
                 <button class="filter-btn active" data-filter="all">ALL</button>
             </div>
-            
             <span class="filter-sub">VIDEO GENRES</span>
             <div class="filter-group">
                 <button class="filter-btn" data-filter="ANIMATION">ANIMATION</button>
@@ -179,7 +179,6 @@
                 <button class="filter-btn" data-filter="PODCAST">PODCAST</button>
             </div>
         </div>
-
         <div class="video-grid" id="filtered-grid">
             <div class="video-card" data-category="MEDIA ART">
                 <div class="video-tag">MEDIA ART</div>
@@ -251,7 +250,15 @@
                     <div class="flip-back">
                         <h2 class="neon-text" style="font-size: 2rem;">IAN</h2>
                         <div class="dash"></div>
-                        <p>낮에는 평범한 고등학생,<br>밤에는 인디 밴드 보컬.</p>
+                        <p style="font-size: 0.9rem;">낮에는 평범한 고등학생,<br>밤에는 인디 밴드 보컬.</p>
+                        <div class="char-info-list">
+                            <p><b>나이</b> 18세</p>
+                            <p><b>역할</b> 학생 / 인디 밴드 보컬</p>
+                            <p><b>테마</b> 이중 생활</p>
+                        </div>
+                        <div class="char-tags">
+                            #이중생활 #갭모에<br>#카리스마보컬 #안경스위치
+                        </div>
                     </div>
                 </div>
             </div>
@@ -261,7 +268,15 @@
                     <div class="flip-back">
                         <h2 class="neon-text" style="font-size: 2rem;">ECHO</h2>
                         <div class="dash"></div>
-                        <p>네오 시티의 그림자 속에서<br>활동하는 작곡가.</p>
+                        <p style="font-size: 0.9rem;">네오 시티의 그림자 속에서<br>활동하는 언더그라운드 작곡가.</p>
+                        <div class="char-info-list">
+                            <p><b>나이</b> 20대 초반</p>
+                            <p><b>역할</b> 작곡가 / 해커</p>
+                            <p><b>테마</b> 자유와 집중</p>
+                        </div>
+                        <div class="char-tags">
+                            #무심 #츤데레<br>#자유추구 #집중력
+                        </div>
                     </div>
                 </div>
             </div>
