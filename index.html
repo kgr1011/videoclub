@@ -12,40 +12,55 @@
             --accent-pink: #FF2D78;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; } /* 기본 커서 숨김 */
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
         body { background-color: var(--bg-black); color: white; font-family: 'Noto Sans KR', sans-serif; line-height: 1.6; overflow-x: hidden; }
 
-        /* --- 1. VCR 노이즈 효과 --- */
+        /* --- 1. 강화된 VCR 노이즈 효과 --- */
         .vcr-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: transparent; pointer-events: none; z-index: 9998; opacity: 0.05;
+            background: transparent; pointer-events: none; z-index: 9998;
         }
+        /* 지지직거리는 미세한 노이즈 레이어 */
         .vcr-overlay::before {
             content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: url('https://upload.wikimedia.org/wikipedia/commons/7/76/1k_Resolution_White_Noise.png');
-            animation: noise 0.2s infinite;
+            opacity: 0.08; /* 노이즈 강도 상향 */
+            animation: noise-anim 0.2s infinite;
         }
-        @keyframes noise {
-            0% { transform: translate(0,0); }
-            10% { transform: translate(-5%,-5%); }
-            20% { transform: translate(-10%,5%); }
-            30% { transform: translate(5%,-10%); }
-            40% { transform: translate(-5%,15%); }
-            50% { transform: translate(-10%,5%); }
-            60% { transform: translate(15%,0); }
-            70% { transform: translate(0,10%); }
-            80% { transform: translate(-15%,0); }
-            90% { transform: translate(10%,5%); }
-            100% { transform: translate(5%,0); }
+        /* 화면을 가로지르는 VCR 스캔라인 효과 추가 */
+        .vcr-overlay::after {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 3px, 3px 100%;
+            pointer-events: none;
         }
 
-        /* --- 2. 네온 커서 --- */
-        #cursor {
-            position: fixed; width: 20px; height: 20px;
+        @keyframes noise-anim {
+            0% { transform: translate(0,0); }
+            10% { transform: translate(-1%,-1%); }
+            20% { transform: translate(-2%,1%); }
+            30% { transform: translate(1%,-2%); }
+            50% { transform: translate(-1%,2%); }
+            70% { transform: translate(2%,0); }
+            90% { transform: translate(-1%,1%); }
+            100% { transform: translate(1%,0); }
+        }
+
+        /* --- 2. 사이즈 축소 및 잔상이 남는 네온 커서 --- */
+        .cursor-dot {
+            position: fixed; width: 8px; height: 8px; /* 사이즈 축소 */
             background: var(--neon-yellow); border-radius: 50%;
             pointer-events: none; transform: translate(-50%, -50%);
-            z-index: 9999; transition: transform 0.1s ease-out;
-            box-shadow: 0 0 15px var(--neon-yellow), 0 0 30px var(--neon-yellow);
+            z-index: 9999;
+            box-shadow: 0 0 10px var(--neon-yellow), 0 0 20px var(--neon-yellow);
+        }
+        /* 잔상 효과를 위한 트레일 효과 */
+        .cursor-trail {
+            position: fixed; width: 6px; height: 6px;
+            background: rgba(255, 234, 0, 0.4); border-radius: 50%;
+            pointer-events: none; transform: translate(-50%, -50%);
+            z-index: 9998; transition: transform 0.15s ease-out, opacity 0.15s ease-out;
         }
 
         .neon-text { color: var(--neon-yellow); text-shadow: 0 0 10px rgba(255, 234, 0, 0.7); font-weight: 900; }
@@ -75,27 +90,12 @@
         .playing .tape-icon { display: inline-block; animation: spin 2s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* 비디오 및 캐릭터 카드 등 기존 스타일 유지 */
-        .equipment-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px; }
-        .eq-item { background: #0d0d0d; padding: 20px; border: 1px solid #222; display: flex; justify-content: space-between; align-items: center; transition: all 0.4s ease; opacity: 0.4; filter: grayscale(100%); }
-        .eq-item:hover { opacity: 1; filter: grayscale(0%); transform: translateY(-5px); border-color: rgba(255, 255, 255, 0.2); }
-        .eq-item.pr, .eq-item.ae { border-left: 4px solid #312963; }
-        .eq-item.ps { border-left: 4px solid #31a8ff; }
-        .eq-item.ai, .eq-item.bl { border-left: 4px solid #ff9a00; }
-        .eq-item.id { border-left: 4px solid #ff3366; }
-        .eq-name { font-weight: bold; }
-        .rent-tag { font-size: 0.6rem; color: #555; }
-
-        .filter-group { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 25px; }
-        .filter-btn { background: none; border: 1px solid #333; color: white; padding: 8px 18px; font-size: 0.8rem; transition: 0.3s; font-weight: 700; }
-        .filter-btn.active { background: var(--neon-yellow); color: black; border-color: var(--neon-yellow); }
-
+        /* 기존 영상/캐릭터 스타일 유지 */
         .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
         .video-card { background: #0a0a0a; border: 1px solid #222; border-radius: 8px; overflow: hidden; position: relative; transition: 0.4s; }
         .video-card.hide { display: none; }
         .iframe-container { position: relative; width: 100%; padding-bottom: 56.25%; height: 0; }
         .iframe-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
-        .video-tag { position: absolute; top: 10px; left: 10px; background: var(--neon-yellow); color: black; padding: 2px 8px; font-size: 0.7rem; font-weight: bold; z-index: 5; }
         .video-info { padding: 15px; font-size: 0.9rem; font-weight: bold; }
 
         .centered-section { text-align: center; }
@@ -105,9 +105,7 @@
         .flip-card.is-flipped .flip-inner { transform: rotateY(180deg); }
         .flip-front, .flip-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 15px; border: 1px solid #333; }
         .flip-front img { width: 100%; height: 100%; object-fit: cover; border-radius: 15px; }
-        .flip-back { background: #111; transform: rotateY(180deg); padding: 25px; display: flex; flex-direction: column; justify-content: center; }
-        .char-info-list b { color: var(--neon-yellow); display: inline-block; width: 45px; }
-        .char-tags { font-size: 0.75rem; color: var(--accent-pink); margin-top: 10px; }
+        .flip-back { background: #111; transform: rotateY(180deg); padding: 25px; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
 
         .receipt-container { display: flex; flex-direction: column; align-items: center; padding: 100px 10%; background: #050505; text-align: center; }
         .receipt { background: #fdfdf5; color: black; width: 380px; padding: 40px; font-family: 'Courier New', monospace; position: relative; box-shadow: 10px 10px 0px rgba(255, 234, 0, 0.2); text-align: left; }
@@ -118,7 +116,8 @@
 <body>
 
     <div class="vcr-overlay"></div>
-    <div id="cursor"></div>
+    <div id="cursor-dot" class="cursor-dot"></div>
+    <div id="cursor-trail" class="cursor-trail"></div>
 
     <div id="bgm-container">
         <span class="tape-icon">📼</span>
@@ -126,218 +125,4 @@
         <div id="controls" style="display: flex; gap: 5px; margin-left: 10px;">
             <button onclick="playPrev()" style="background:none; border:none; color:white; font-size: 0.7rem;">◀</button>
             <button id="play-btn" onclick="toggleBGM()" style="background:none; border:none; color:white; font-size: 0.7rem;">PLAY</button>
-            <button onclick="playNext()" style="background:none; border:none; color:white; font-size: 0.7rem;">▶</button>
-        </div>
-        <audio id="main-audio"></audio>
-    </div>
-
-    <audio id="click-sound" src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3"></audio>
-
-    <header>
-        <div class="logo neon-text">GEUNRYEONG VIDEO CLUB</div>
-        <div style="font-size: 0.7rem;">● ALWAYS OPEN</div>
-    </header>
-
-    <section class="hero">
-        <h1 class="neon-text">지금 가장 보고 싶은<br>영상을 대여해 드립니다.</h1>
-        <p style="opacity: 0.7;">Curated videos & characters by GeunRyeong</p>
-    </section>
-
-    <section id="about">
-        <span class="label">MANAGER</span>
-        <h2 class="neon-text section-title">점주 소개</h2>
-        <div class="section-desc">점주에 대한 간단한 소개입니다.</div>
-        <div class="manager-text">
-            VIDEO CLUB의 점주 김근령입니다.
-            영상을 보는 걸 좋아해
-            직접 제작까지 하게 되었습니다.
-            나아가 영상뿐만 아니라
-            조금 더 넓은 범위의 작업도 하고 있습니다.
-            이곳은 그 기록을 모아둔 공간입니다.
-        </div>
-
-        <span class="label">EQUIPMENT RENTAL</span>
-        <h2 class="neon-text section-title">장비 목록</h2>
-        <div class="section-desc">비디오를 만들기 위해 항상 대여 가능한 장비 목록</div>
-        <div class="equipment-grid">
-            <div class="eq-item pr"><span class="eq-name">Premiere Pro</span><span class="rent-tag">RENT</span></div>
-            <div class="eq-item ae"><span class="eq-name">After Effects</span><span class="rent-tag">RENT</span></div>
-            <div class="eq-item ps"><span class="eq-name">Photoshop</span><span class="rent-tag">RENT</span></div>
-            <div class="eq-item ai"><span class="eq-name">Illustrator</span><span class="rent-tag">RENT</span></div>
-            <div class="eq-item bl"><span class="eq-name">Blender</span><span class="rent-tag">RENT</span></div>
-            <div class="eq-item id"><span class="eq-name">InDesign</span><span class="rent-tag">RENT</span></div>
-        </div>
-    </section>
-
-    <section id="new">
-        <span class="label">NEW RELEASES</span>
-        <h2 class="neon-text section-title">신작 코너</h2>
-        <div class="section-desc">최근 입고된 테이프들입니다. 클릭하여 감상하세요.</div>
-        <div class="video-grid">
-            <div class="video-card"><div class="video-tag">PRODUCT</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/-mfwhKQv4MY"></iframe></div><div class="video-info">Product Video</div></div>
-            <div class="video-card"><div class="video-tag">ANIMATION</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/8XyyVhOo4j4"></iframe></div><div class="video-info">AI Animation Film</div></div>
-            <div class="video-card"><div class="video-tag">3D</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/hGRN-lwvUU4"></iframe></div><div class="video-info">3D Animation</div></div>
-            <div class="video-card"><div class="video-tag">WEBDRAMA</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/KbV-dxd6BoQ"></iframe></div><div class="video-info">WEBDRAMA</div></div>
-        </div>
-    </section>
-
-    <section id="genres">
-        <span class="label">GENRES</span>
-        <h2 class="neon-text section-title">장르별 영상</h2>
-        <div class="section-desc">원하시는 장르의 테이프를 골라보세요.</div>
-        <div class="filter-group">
-            <button class="filter-btn active" data-filter="all">ALL</button>
-            <button class="filter-btn" data-filter="ANIMATION">ANIMATION</button>
-            <button class="filter-btn" data-filter="SHORTS">SHORTS</button>
-            <button class="filter-btn" data-filter="WEBDRAMA">WEBDRAMA</button>
-            <button class="filter-btn" data-filter="MEDIA ART">MEDIA ART</button>
-            <button class="filter-btn" data-filter="AD">AD</button>
-            <button class="filter-btn" data-filter="PODCAST">PODCAST</button>
-        </div>
-        <div class="video-grid" id="filtered-grid">
-            <div class="video-card" data-category="MEDIA ART"><div class="video-tag">MEDIA ART</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/vCSrwtncK0Y"></iframe></div><div class="video-info">Media Art</div></div>
-            <div class="video-card" data-category="PODCAST"><div class="video-tag">PODCAST</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/tR-zDeqXqO4"></iframe></div><div class="video-info">Podcast Ep.1</div></div>
-            <div class="video-card" data-category="PODCAST"><div class="video-tag">PODCAST</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/DVWGfjU2-Jw"></iframe></div><div class="video-info">Podcast Ep.2</div></div>
-            <div class="video-card" data-category="PODCAST"><div class="video-tag">PODCAST</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/6cFyGEuheX0"></iframe></div><div class="video-info">Podcast Ep.3</div></div>
-            <div class="video-card" data-category="PODCAST"><div class="video-tag">PODCAST</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/4XuNehNNy0o"></iframe></div><div class="video-info">Podcast Ep.4</div></div>
-            <div class="video-card" data-category="PODCAST"><div class="video-tag">PODCAST</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/prne2fJYE7I"></iframe></div><div class="video-info">Podcast Ep.5</div></div>
-            <div class="video-card" data-category="PODCAST"><div class="video-tag">PODCAST</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/faz2WUjPSdo"></iframe></div><div class="video-info">Podcast Ep.6</div></div>
-            <div class="video-card" data-category="ANIMATION"><div class="video-tag">ANIMATION</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/8XyyVhOo4j4"></iframe></div><div class="video-info">AI Animation Film</div></div>
-            <div class="video-card" data-category="SHORTS"><div class="video-tag">SHORTS</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/hGRN-lwvUU4"></iframe></div><div class="video-info">3D Animation</div></div>
-            <div class="video-card" data-category="WEBDRAMA"><div class="video-tag">WEBDRAMA</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/KbV-dxd6BoQ"></iframe></div><div class="video-info">Web Drama</div></div>
-            <div class="video-card" data-category="AD"><div class="video-tag">AD</div><div class="iframe-container"><iframe src="https://www.youtube.com/embed/-mfwhKQv4MY"></iframe></div><div class="video-info">Product Video</div></div>
-        </div>
-    </section>
-
-    <section id="characters" class="centered-section">
-        <span class="label">ORIGINAL CHARACTERS</span>
-        <h2 class="neon-text section-title">오리지널 캐릭터</h2>
-        <div class="section-desc">카드를 클릭하면 캐릭터 프로필을 볼 수 있습니다.</div>
-        <div class="char-grid">
-            <div class="flip-card" onclick="flipChar(this)">
-                <div class="flip-inner">
-                    <div class="flip-front"><img src="7.jpg" alt="IAN"></div>
-                    <div class="flip-back">
-                        <h2 class="neon-text" style="font-size: 2rem;">IAN</h2>
-                        <div class="dash"></div>
-                        <p style="font-size: 0.9rem;">낮에는 평범한 고등학생, 밤에는 인디 밴드 보컬.</p>
-                        <div class="char-info-list"><p><b>나이</b> 18세</p><p><b>역할</b> 학생 / 보컬</p><p><b>테마</b> 이중 생활</p></div>
-                        <div class="char-tags">#이중생활 #갭모에 #안경스위치</div>
-                    </div>
-                </div>
-            </div>
-            <div class="flip-card" onclick="flipChar(this)">
-                <div class="flip-inner">
-                    <div class="flip-front"><img src="8.jpg" alt="ECHO"></div>
-                    <div class="flip-back">
-                        <h2 class="neon-text" style="font-size: 2rem;">ECHO</h2>
-                        <div class="dash"></div>
-                        <p style="font-size: 0.9rem;">네오 시티의 언더그라운드 작곡가.</p>
-                        <div class="char-info-list"><p><b>나이</b> 20대 초반</p><p><b>역할</b> 작곡가 / 해커</p><p><b>테마</b> 자유와 집중</p></div>
-                        <div class="char-tags">#무심 #츤데레 #자유추구</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div style="font-size: 0.7rem; color: #555; margin-top: 40px;">* 모든 캐릭터는 오리지널 창작물입니다 *</div>
-    </section>
-
-    <div class="receipt-container">
-        <div style="margin-bottom: 20px;"><span class="label">RENTAL INFO</span><h2 class="neon-text section-title">대여 안내</h2></div>
-        <div class="receipt">
-            <p style="text-align: center; font-weight: bold;">VIDEO CLUB INFO</p>
-            <div class="dash"></div>
-            <p>EMAIL: rrf0524@naver.com</p>
-            <p>INSTAGRAM: @kim__dobby_is_free</p>
-            <p>KAKAOTALK: kgr__0524</p>
-            <div class="dash"></div>
-            <p style="text-align: center; font-size: 0.8rem; margin-top: 20px;">THANK YOU</p>
-        </div>
-    </div>
-
-    <script>
-        // 네온 커서 로직
-        const cursor = document.getElementById('cursor');
-        document.addEventListener('mousemove', e => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
-
-        // 테이프 찰칵 효과음 로직
-        const clickSound = document.getElementById('click-sound');
-        function playClick() { clickSound.currentTime = 0; clickSound.play(); }
-
-        // 캐릭터 카드 뒤집기 + 효과음
-        function flipChar(el) { playClick(); el.classList.toggle('is-flipped'); }
-
-        // BGM 플레이리스트 (업로드된 4곡)
-        const playlist = [
-            "http://googleusercontent.com/file_content/0", // Cup O Tea
-            "http://googleusercontent.com/file_content/1", // Digital Horizon
-            "http://googleusercontent.com/file_content/2", // Affogato
-            "http://googleusercontent.com/file_content/3"  // Oak
-        ];
-        let currentTrack = 0;
-        const mainAudio = document.getElementById('main-audio');
-        const bgmContainer = document.getElementById('bgm-container');
-        const bgmText = document.getElementById('bgm-text');
-        const playBtn = document.getElementById('play-btn');
-
-        function loadTrack(index) { mainAudio.src = playlist[index]; }
-        loadTrack(currentTrack);
-
-        function toggleBGM() {
-            playClick();
-            if (mainAudio.paused) {
-                mainAudio.play();
-                bgmContainer.classList.add('playing');
-                bgmText.innerText = "BGM ON";
-                playBtn.innerText = "PAUSE";
-            } else {
-                mainAudio.pause();
-                bgmContainer.classList.remove('playing');
-                bgmText.innerText = "BGM OFF";
-                playBtn.innerText = "PLAY";
-            }
-        }
-
-        function playNext() {
-            playClick();
-            currentTrack = (currentTrack + 1) % playlist.length;
-            loadTrack(currentTrack);
-            mainAudio.play();
-            bgmContainer.classList.add('playing');
-            bgmText.innerText = "BGM ON";
-            playBtn.innerText = "PAUSE";
-        }
-
-        function playPrev() {
-            playClick();
-            currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
-            loadTrack(currentTrack);
-            mainAudio.play();
-            bgmContainer.classList.add('playing');
-            bgmText.innerText = "BGM ON";
-            playBtn.innerText = "PAUSE";
-        }
-
-        mainAudio.onended = () => { playNext(); };
-
-        // 비디오 필터 로직
-        const buttons = document.querySelectorAll('.filter-btn');
-        const cards = document.querySelectorAll('#filtered-grid .video-card');
-        buttons.forEach(button => {
-            button.addEventListener('click', () => {
-                playClick();
-                buttons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-                const filter = button.getAttribute('data-filter');
-                cards.forEach(card => {
-                    if (filter === 'all' || card.getAttribute('data-category') === filter) card.classList.remove('hide');
-                    else card.classList.add('hide');
-                });
-            });
-        });
-    </script>
-</body>
-</html>
+            <button onclick="play
