@@ -37,7 +37,8 @@
 
         section { padding: 100px 10%; border-bottom: 1px solid #111; }
         .label { color: var(--accent-pink); font-size: 0.8rem; font-weight: bold; letter-spacing: 2px; }
-        .section-title { font-size: 2.5rem; margin-top: 10px; margin-bottom: 30px; }
+        .section-title { font-size: 2.5rem; margin-top: 10px; margin-bottom: 5px; } /* 설명 문구와 간격 조절 */
+        .section-desc { font-size: 0.8rem; color: #888; margin-bottom: 35px; } /* 추가된 설명 문구 스타일 */
 
         .manager-text { max-width: 700px; font-size: 1.1rem; margin-bottom: 60px; white-space: pre-line; }
 
@@ -82,7 +83,7 @@
         .flip-front img { width: 100%; height: 100%; object-fit: cover; border-radius: 15px; }
         .flip-back { background: #111; transform: rotateY(180deg); padding: 30px; display: flex; flex-direction: column; justify-content: center; }
 
-        .receipt-container { display: flex; justify-content: center; padding: 100px 0; }
+        .receipt-container { display: flex; flex-direction: column; align-items: center; padding: 100px 10%; background: #050505; }
         .receipt { background: #fdfdf5; color: black; width: 380px; padding: 40px; font-family: 'Courier New', monospace; position: relative; box-shadow: 10px 10px 0px rgba(255, 234, 0, 0.2); }
         .receipt::after { content: "APPROVED"; position: absolute; border: 3px solid #e63946; color: #e63946; padding: 5px 15px; font-weight: bold; bottom: 40px; right: 25px; transform: rotate(-15deg); }
         .dash { border-bottom: 2px dashed #ccc; margin: 20px 0; }
@@ -103,6 +104,7 @@
     <section id="about">
         <span class="label">MANAGER</span>
         <h2 class="neon-text section-title">점주 소개</h2>
+        <div class="section-desc">점주에 대한 간단한 소개입니다.</div>
         <div class="manager-text">
             VIDEO CLUB의 점주 김근령입니다.
             영상을 보는 걸 좋아해
@@ -114,6 +116,7 @@
 
         <span class="label">EQUIPMENT RENTAL</span>
         <h2 class="neon-text section-title">장비 목록</h2>
+        <div class="section-desc">비디오를 만들기 위해 항상 대여 가능한 장비 목록</div>
         <div class="equipment-grid">
             <div class="eq-item pr"><span class="eq-name">Premiere Pro</span><span class="rent-tag">RENT</span></div>
             <div class="eq-item ae"><span class="eq-name">After Effects</span><span class="rent-tag">RENT</span></div>
@@ -127,6 +130,7 @@
     <section id="new">
         <span class="label">NEW RELEASES</span>
         <h2 class="neon-text section-title">신작 코너</h2>
+        <div class="section-desc">최근 입고된 테이프들입니다. 클릭하여 감상하세요.</div>
         <div class="video-grid">
             <div class="video-card">
                 <div class="video-tag">PRODUCT</div>
@@ -154,6 +158,7 @@
     <section id="genres">
         <span class="label">GENRES</span>
         <h2 class="neon-text section-title">장르별 영상</h2>
+        <div class="section-desc">원하시는 장르의 테이프를 골라보세요.</div>
         
         <div class="filter-container">
             <span class="filter-sub">SHELVES</span>
@@ -234,6 +239,7 @@
     <section id="characters">
         <span class="label">ORIGINAL CHARACTERS</span>
         <h2 class="neon-text section-title">오리지널 캐릭터</h2>
+        <div class="section-desc">카드를 클릭하면 캐릭터 프로필을 볼 수 있습니다.</div>
         <div class="char-grid">
             <div class="flip-card" onclick="this.classList.toggle('is-flipped')">
                 <div class="flip-inner">
@@ -259,6 +265,11 @@
     </section>
 
     <div class="receipt-container">
+        <div style="text-align: left; width: 380px; margin-bottom: 20px;">
+            <span class="label">RENTAL INFO</span>
+            <h2 class="neon-text section-title" style="margin-bottom: 5px;">대여 안내</h2>
+            <div class="section-desc" style="margin-bottom: 0;">방문해 주셔서 감사합니다. 연락은 아래 정보를 이용해 주세요.</div>
+        </div>
         <div class="receipt">
             <p style="text-align: center; font-weight: bold;">VIDEO CLUB RENTAL INFO</p>
             <div class="dash"></div>
@@ -278,9 +289,7 @@
             button.addEventListener('click', () => {
                 buttons.forEach(btn => btn.classList.remove('active'));
                 button.classList.add('active');
-
                 const filter = button.getAttribute('data-filter');
-
                 cards.forEach(card => {
                     if (filter === 'all' || card.getAttribute('data-category') === filter) {
                         card.classList.remove('hide');
