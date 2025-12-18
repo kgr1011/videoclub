@@ -56,7 +56,7 @@
         .eq-name { font-weight: bold; color: #fff; }
         .rent-tag { font-size: 0.6rem; color: #555; font-weight: bold; }
 
-        /* 필터링 UI (이미지 6번 스타일) */
+        /* 필터링 UI */
         .filter-container { margin-bottom: 40px; }
         .filter-sub { font-size: 0.7rem; color: #666; font-weight: 900; letter-spacing: 1px; display: block; margin-bottom: 10px; }
         .filter-group { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 25px; }
@@ -129,6 +129,33 @@
         </div>
     </section>
 
+    <section id="new">
+        <span class="label">NEW RELEASES</span>
+        <h2 class="neon-text section-title">신작 코너</h2>
+        <div class="video-grid">
+            <div class="video-card">
+                <div class="video-tag">AD</div>
+                <div class="iframe-container"><iframe src="https://www.youtube.com/embed/-mfwhKQv4MY" allowfullscreen></iframe></div>
+                <div class="video-info">Product Video</div>
+            </div>
+            <div class="video-card">
+                <div class="video-tag">ANIMATION</div>
+                <div class="iframe-container"><iframe src="https://www.youtube.com/embed/8XyyVhOo4j4" allowfullscreen></iframe></div>
+                <div class="video-info">AI Animation Film</div>
+            </div>
+            <div class="video-card">
+                <div class="video-tag">SHORTS</div>
+                <div class="iframe-container"><iframe src="https://www.youtube.com/embed/hGRN-lwvUU4" allowfullscreen></iframe></div>
+                <div class="video-info">3D Animation</div>
+            </div>
+            <div class="video-card">
+                <div class="video-tag">WEBDRAMA</div>
+                <div class="iframe-container"><iframe src="https://www.youtube.com/embed/KbV-dxd6BoQ" allowfullscreen></iframe></div>
+                <div class="video-info">WEBDRAMA</div>
+            </div>
+        </div>
+    </section>
+
     <section id="genres">
         <span class="label">GENRES</span>
         <h2 class="neon-text section-title">장르별 영상</h2>
@@ -137,7 +164,6 @@
             <span class="filter-sub">SHELVES</span>
             <div class="filter-group">
                 <button class="filter-btn active" data-filter="all">ALL</button>
-                <button class="filter-btn" data-filter="VIDEO">VIDEO</button>
             </div>
             
             <span class="filter-sub">VIDEO GENRES</span>
@@ -160,7 +186,7 @@
             <div class="video-card" data-category="SHORTS">
                 <div class="video-tag">SHORTS</div>
                 <div class="iframe-container"><iframe src="https://www.youtube.com/embed/hGRN-lwvUU4" allowfullscreen></iframe></div>
-                <div class="video-info">Vertical Contents</div>
+                <div class="video-info">3D Animation</div>
             </div>
             <div class="video-card" data-category="WEBDRAMA">
                 <div class="video-tag">WEBDRAMA</div>
@@ -172,7 +198,7 @@
                 <div class="iframe-container"><iframe src="https://www.youtube.com/embed/-mfwhKQv4MY" allowfullscreen></iframe></div>
                 <div class="video-info">Product AD Film</div>
             </div>
-            </div>
+        </div>
     </section>
 
     <section id="characters">
@@ -226,8 +252,7 @@
                 const filter = button.getAttribute('data-filter');
 
                 cards.forEach(card => {
-                    // ALL을 누르거나 장르가 일치하는 경우 표시
-                    if (filter === 'all' || card.getAttribute('data-category') === filter || (filter === 'VIDEO' && card.getAttribute('data-category'))) {
+                    if (filter === 'all' || card.getAttribute('data-category') === filter) {
                         card.classList.remove('hide');
                     } else {
                         card.classList.add('hide');
