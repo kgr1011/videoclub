@@ -27,11 +27,13 @@
             background: rgba(0,0,0,0.8); z-index: 1000;
         }
 
-        /* 1. 메인 히어로 */
+        /* --- 1. 첫 화면 배경 (파일명 수정 완료) --- */
         .hero {
             height: 100vh; display: flex; flex-direction: column; justify-content: center;
             padding: 0 10%;
-            background: linear-gradient(to right, rgba(0,0,0,0.8) 20%, rgba(0,0,0,0.1)), url('Gemini_Generated_Image_xq6b6qxq6b6qxq6b.jpg');
+            /* GitHub에 있는 실제 파일명으로 수정했습니다 */
+            background: linear-gradient(to right, rgba(0,0,0,0.8) 20%, rgba(0,0,0,0.1)), 
+                        url('Gemini_Generated_Image_xq6b6qxq6b6qxq6b.jpg');
             background-size: cover; background-position: center;
         }
         .hero h1 { font-size: clamp(2.5rem, 6vw, 4rem); line-height: 1.1; margin-bottom: 20px; }
@@ -56,7 +58,7 @@
         .eq-name { font-weight: bold; color: #fff; }
         .rent-tag { font-size: 0.6rem; color: #555; font-weight: bold; }
 
-        /* 비디오 그리드 설정 */
+        /* 비디오 그리드 */
         .video-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -185,7 +187,7 @@
         <div class="char-grid">
             <div class="flip-card" onclick="this.classList.toggle('is-flipped')">
                 <div class="flip-inner">
-                    <div class="flip-front"><img src="7.jpg" alt="Character 1"></div>
+                    <div class="flip-front"><img src="7.jpg" alt="IAN"></div>
                     <div class="flip-back">
                         <h2 class="neon-text" style="font-size: 2rem;">IAN</h2>
                         <div class="dash"></div>
@@ -195,7 +197,7 @@
             </div>
             <div class="flip-card" onclick="this.classList.toggle('is-flipped')">
                 <div class="flip-inner">
-                    <div class="flip-front"><img src="8.jpg" alt="Character 2"></div>
+                    <div class="flip-front"><img src="8.jpg" alt="ECHO"></div>
                     <div class="flip-back">
                         <h2 class="neon-text" style="font-size: 2rem;">ECHO</h2>
                         <div class="dash"></div>
